@@ -9,9 +9,12 @@ namespace NSFAudio
     public enum EXT_SOUND : byte
     {
         NONE = 0x00,
-        VRCVI = 0x01,
-        VRCVII = 0x02,
-        FDS = 0x04
+        VRC6 = 0x01,
+        VRC7 = 0x02,
+        FDS = 0x04,
+        MMC5 = 0x08,
+        N163 = 0x10,
+        S5B = 0x20
     }
 
     public class NSF
@@ -78,20 +81,6 @@ namespace NSFAudio
                     this.bankswitched = true;
                     break;
                 }
-            }
-
-            switch (this.ext_sound_type)
-            {
-                case EXT_SOUND.VRCVI:
-                    //apu_setext(vrcvi_soundprocess);
-                    break;
-                case EXT_SOUND.VRCVII:
-                    break;
-                case EXT_SOUND.FDS:
-                    break;
-                case EXT_SOUND.NONE:
-                default:
-                    break;
             }
         }
 

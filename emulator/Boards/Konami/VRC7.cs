@@ -18,9 +18,11 @@
  */
 /*Written by Ala Ibrahim Hadid*/
 using MyNes.Core.Types;
+using NSFAudio;
 namespace MyNes.Core.Boards.Konami
 {
     [BoardName("VRC7", 85)]
+    [BoardSoundChip((byte)EXT_SOUND.VRC7)]
     class VRC7 : Board
     {
         public VRC7() : base() { }

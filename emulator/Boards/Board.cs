@@ -67,6 +67,11 @@ namespace MyNes.Core.Boards
                     this.mapperNumber = ((BoardName)attr).InesMapperNumber;
                     break;
                 }
+                else if (attr.GetType() == typeof(BoardSoundChip))
+                {
+                    this.SoundChip = ((BoardSoundChip)attr).SoundChip;
+                    break;
+                }
             }
         }
 
@@ -270,6 +275,8 @@ namespace MyNes.Core.Boards
         /// </summary>
         public virtual int INESMapperNumber
         { get { return mapperNumber; } }
+
+        public virtual byte SoundChip { get; private set; }
         #endregion
     }
     public class BoardName : Attribute
@@ -284,5 +291,15 @@ namespace MyNes.Core.Boards
 
         public string Name { get { return name; } }
         public int InesMapperNumber { get { return inesMapperNumber; } }
+    }
+
+    public class BoardSoundChip : Attribute
+    {
+        public BoardSoundChip(byte soundChip)
+        {
+            this.SoundChip = soundChip;
+        }
+
+        public byte SoundChip { get; private init; }
     }
 }

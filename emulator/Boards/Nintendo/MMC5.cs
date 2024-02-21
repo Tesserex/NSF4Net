@@ -18,9 +18,11 @@
  */
 /*Written by Ala Ibrahim Hadid*/
 using MyNes.Core.APU.MMC5;
+using NSFAudio;
 namespace MyNes.Core.Boards.Nintendo
 {
     [BoardName("MMC5", 5)]
+    [BoardSoundChip((byte)EXT_SOUND.MMC5)]
     class MMC5 : Board
     {
         public MMC5()

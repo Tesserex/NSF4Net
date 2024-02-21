@@ -19,9 +19,11 @@
 /*Written by Ala Ibrahim Hadid*/
 using MyNes.Core.Types;
 using MyNes.Core.APU.Sunsoft5B;
+using NSFAudio;
 namespace MyNes.Core.Boards.Sunsoft
 {
     [BoardName("Sunsoft B5 / FME-7", 69)]
+    [BoardSoundChip((byte)EXT_SOUND.S5B)]
     class Sunsoft5 : Board
     {
         public Sunsoft5() : base() { }

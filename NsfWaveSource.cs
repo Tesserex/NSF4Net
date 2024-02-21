@@ -183,7 +183,7 @@ namespace NSFAudio
         static void InitializeComponents(NSF nsf)
         {
             BoardsManager.LoadAvailableBoards();
-            Nes.Board = BoardsManager.GetBoard((byte)nsf.ext_sound_type, new byte[0x8000], new byte [0x8000], new byte[0x8000]);
+            Nes.Board = BoardsManager.GetBoard((byte)nsf.ext_sound_type);
             Nes.CpuMemory = new CpuMemory();
             Nes.CpuMemory.Initialize();
 

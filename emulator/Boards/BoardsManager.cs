@@ -16,10 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-using System;
-using System.ComponentModel;
-using System.Collections.Generic;
 using System.Reflection;
+using MyNes.Core.Boards.Nintendo;
 
 namespace MyNes.Core.Boards
 {
@@ -43,50 +41,23 @@ namespace MyNes.Core.Boards
                     }
                 }
             }
-            availableBoards.Sort(new BoardSorter(true, false));
             boards = availableBoards.ToArray();
         }
-        public static Board? GetBoard(byte mapper, byte[] chr, byte[] prg, byte[] trainer)
+
+        public static Board GetBoard(byte soundChip)
         {
             foreach (Board board in boards)
             {
-                if (board.INESMapperNumber == mapper)
+                if (board.SoundChip == soundChip)
                 {
                     Type boardType = board.GetType();
-                    return (Board)Activator.CreateInstance(boardType, new object[] { chr, prg, trainer, false });
+                    return (Board)Activator.CreateInstance(boardType, new object[] { new byte[0x8000], new byte[0x8000], new byte[0x8000], false });
                 }
             }
-            return null;
+            return new NROM(new byte[0x8000], new byte[0x8000], new byte[0x8000], false);
         }
 
         //Properties
         public static Board[] AvailableBoards { get { return boards; } }
-    }
-    class BoardSorter : IComparer<Board>
-    {
-        bool AtoZ = true;
-        bool isMappers = false;
-        public BoardSorter(bool AtoZ, bool isMappers)
-        {
-            this.AtoZ = AtoZ;
-            this.isMappers = isMappers;
-        }
-        public int Compare(Board x, Board y)
-        {
-            if (!isMappers)
-            {
-                if (AtoZ)
-                    return (StringComparer.Create(System.Threading.Thread.CurrentThread.CurrentCulture, false)).Compare(x.Name, y.Name);
-                else
-                    return (-1 * (StringComparer.Create(System.Threading.Thread.CurrentThread.CurrentCulture, false)).Compare(x.Name, y.Name));
-            }
-            else
-            {
-                if (AtoZ)
-                    return (StringComparer.Create(System.Threading.Thread.CurrentThread.CurrentCulture, false)).Compare(x.INESMapperNumber, y.INESMapperNumber);
-                else
-                    return (-1 * (StringComparer.Create(System.Threading.Thread.CurrentThread.CurrentCulture, false)).Compare(x.INESMapperNumber, y.INESMapperNumber));
-            }
-        }
     }
 }

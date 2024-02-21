@@ -18,9 +18,11 @@
  */
 /*Written by Ala Ibrahim Hadid*/
 using MyNes.Core.APU.VRC6;
+using NSFAudio;
 namespace MyNes.Core.Boards.Konami
 {
     [BoardName("VRC6", 0)]
+    [BoardSoundChip((byte)EXT_SOUND.VRC6)]
     abstract class VRC6 : Board
     {
         public VRC6() : base() { }

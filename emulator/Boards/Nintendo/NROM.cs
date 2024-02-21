@@ -17,9 +17,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /*Written by Adam Becker*/
+using NSFAudio;
+
 namespace MyNes.Core.Boards.Nintendo
 {
     [BoardName("NROM", 0)]
+    [BoardSoundChip((byte)EXT_SOUND.NONE)]
     public class NROM : Board
     {
         public NROM()

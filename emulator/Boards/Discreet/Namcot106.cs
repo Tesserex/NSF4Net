@@ -18,9 +18,11 @@
  */
 /*Written by Ala Ibrahim Hadid*/
 using MyNes.Core.APU.Namco163;
+using NSFAudio;
 namespace MyNes.Core.Boards.Discreet
 {
     [BoardName("Namcot 106", 19)]
+    [BoardSoundChip((byte)EXT_SOUND.N163)]
     class Namcot106 : Board
     {
         public Namcot106() : base() { }
