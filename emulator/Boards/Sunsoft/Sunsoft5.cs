@@ -17,7 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /*Written by Ala Ibrahim Hadid*/
-using MyNes.Core.Types;
 using MyNes.Core.APU.Sunsoft5B;
 using NSFAudio;
 namespace MyNes.Core.Boards.Sunsoft

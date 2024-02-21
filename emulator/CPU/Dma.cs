@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-using MyNes.Core.Types;
 namespace MyNes.Core.CPU
 {
     // Emulates the undocumented direct memory access controller in the 2A03/2A07
