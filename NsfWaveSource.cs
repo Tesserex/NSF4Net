@@ -8,7 +8,7 @@ namespace NSFAudio
 {
     internal class NsfWaveSource : IWaveSource
     {
-        private const int CHANNELS = 1;
+        private const int CHANNELS = 2;
         private const int FRAME_FIXED = 14;
         private const double nes_basecycles = 1789772;
         private WaveFormat _waveFormat;
@@ -20,7 +20,7 @@ namespace NSFAudio
 
         public NsfWaveSource(string path)
         {
-            _waveFormat = new WaveFormat(48000, 8, CHANNELS);
+            _waveFormat = new WaveFormat(48000, 16, CHANNELS);
             //Task.Run(() => play_nsf_file(path, 1));
             play_nsf_file(path, 1);
         }
@@ -46,7 +46,7 @@ namespace NSFAudio
         {
             double clock_per_sample = nes_basecycles / _waveFormat.SampleRate;
 
-            for (var bufPos = 0; bufPos < count; bufPos += CHANNELS)
+            for (var bufPos = 0; bufPos < count;)
             {
                 cpuClockRemaining += clock_per_sample;
                 int cpuClocks = (int)cpuClockRemaining;
@@ -84,8 +84,12 @@ namespace NSFAudio
 
                 // just sample here instead
                 double sample = Nes.Apu.PullSample();
-                var output = (byte)(2 * sample);
-                buffer[bufPos] = output;
+                var output = (ushort)(256 * volume * sample);
+                for (int i = 0; i < CHANNELS; i++)
+                {
+                    buffer[bufPos++] = (byte)(output & 0xFF);
+                    buffer[bufPos++] = (byte)(output >> 8);
+                }
 
                 cpuClockRemaining -= cpuClocks;
             }
