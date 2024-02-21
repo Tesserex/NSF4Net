@@ -19,9 +19,6 @@
 using MyNes.Core.APU;
 using MyNes.Core.Boards;
 using MyNes.Core.CPU;
-using MyNes.Core.IO.Input;
-using MyNes.Core.IO.Output;
-using MyNes.Core.Types;
 
 namespace MyNes.Core
 {
@@ -31,8 +28,6 @@ namespace MyNes.Core
         public static Apu Apu;
         public static CpuMemory CpuMemory;
         public static Board Board;
-        //devices
-        public static IAudioDevice AudioDevice;
         public static bool SoundEnabled = true;
         //emulation controls
         public static bool ON;
@@ -90,10 +85,6 @@ namespace MyNes.Core
         public static void TogglePause(bool pause)
         {
             Pause = pause;
-            if (pause)
-                AudioDevice.Stop();
-            else
-                AudioDevice.Play();
         }
         /// <summary>
         /// Run the emu, keep executing the cpu while is ON
@@ -135,7 +126,6 @@ namespace MyNes.Core
                 Apu.Shutdown();
                 Cpu.Shutdown();
                 CpuMemory.Shutdown();
-                AudioDevice.Shutdown();
 
                 OnEmuShutdown();
                 Initialized = false;
