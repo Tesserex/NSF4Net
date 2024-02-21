@@ -147,16 +147,6 @@ namespace MyNes.Core.Boards.Nintendo
         {
             switch (address)
             {
-                case 0:
-                    switch (reg[0] & 3)
-                    {
-                        case 0: Nes.PpuMemory.SwitchMirroring(Mirroring.Mode1ScA); break;
-                        case 1: Nes.PpuMemory.SwitchMirroring(Mirroring.Mode1ScB); break;
-                        case 2: Nes.PpuMemory.SwitchMirroring(Mirroring.ModeVert); break;
-                        case 3: Nes.PpuMemory.SwitchMirroring(Mirroring.ModeHorz); break;
-                    }
-                    break;
-
                 case 1:
                     if ((reg[0] & 0x10) != 0)
                     {
@@ -207,16 +197,6 @@ namespace MyNes.Core.Boards.Nintendo
         {
             switch (address)
             {
-                case 0:
-                    switch (reg[0] & 3)
-                    {
-                        case 0: Nes.PpuMemory.SwitchMirroring(Mirroring.Mode1ScA); break;
-                        case 1: Nes.PpuMemory.SwitchMirroring(Mirroring.Mode1ScB); break;
-                        case 2: Nes.PpuMemory.SwitchMirroring(Mirroring.ModeVert); break;
-                        case 3: Nes.PpuMemory.SwitchMirroring(Mirroring.ModeHorz); break;
-                    }
-                    break;
-
                 case 1:
                     if ((reg[0] & 0x10) != 0)
                     {
@@ -267,17 +247,6 @@ namespace MyNes.Core.Boards.Nintendo
         }
         private void PokeSUROM(int address, byte data)
         {
-            if (address == 0)
-            {
-                switch (reg[0] & 3)
-                {
-                    case 0: Nes.PpuMemory.SwitchMirroring(Mirroring.Mode1ScA); break;
-                    case 1: Nes.PpuMemory.SwitchMirroring(Mirroring.Mode1ScB); break;
-                    case 2: Nes.PpuMemory.SwitchMirroring(Mirroring.ModeVert); break;
-                    case 3: Nes.PpuMemory.SwitchMirroring(Mirroring.ModeHorz); break;
-                }
-            }
-
             if ((reg[0] & 0x10) == 0x10)
             {
                 base.Switch04kCHR(reg[1], 0);
@@ -310,17 +279,6 @@ namespace MyNes.Core.Boards.Nintendo
         }
         private void PokeSXROM(int address, byte data)
         {
-            if (address == 0)
-            {
-                switch (reg[0] & 3)
-                {
-                    case 0: Nes.PpuMemory.SwitchMirroring(Mirroring.Mode1ScA); break;
-                    case 1: Nes.PpuMemory.SwitchMirroring(Mirroring.Mode1ScB); break;
-                    case 2: Nes.PpuMemory.SwitchMirroring(Mirroring.ModeVert); break;
-                    case 3: Nes.PpuMemory.SwitchMirroring(Mirroring.ModeHorz); break;
-                }
-            }
-
             if ((reg[0] & 0x10) == 0x10)
             {
                 base.Switch04kCHR(reg[1], 0);

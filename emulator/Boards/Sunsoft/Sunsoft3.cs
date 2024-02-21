@@ -65,15 +65,6 @@ namespace MyNes.Core.Boards.Sunsoft
                     irqWriteFlipFlop = false;
                     Nes.Cpu.Interrupt(CPU.Cpu.IsrType.Brd, false);
                     break;
-                case 0xE800:
-                    switch (data & 0x3)
-                    {
-                        case 0: Nes.PpuMemory.SwitchMirroring(Mirroring.ModeVert); break;
-                        case 1: Nes.PpuMemory.SwitchMirroring(Mirroring.ModeHorz); break;
-                        case 2: Nes.PpuMemory.SwitchMirroring(Mirroring.Mode1ScA); break;
-                        case 3: Nes.PpuMemory.SwitchMirroring(Mirroring.Mode1ScB); break;
-                    } 
-                    break;
                 case 0xF800: Switch16KPRG(data, 0x8000); break;
             }
         }

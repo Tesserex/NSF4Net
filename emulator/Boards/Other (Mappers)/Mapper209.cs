@@ -24,10 +24,5 @@ namespace MyNes.Core.Boards.Other__Mappers_
     {
         public Mapper209() : base() { }
         public Mapper209(byte[] chr, byte[] prg, byte[] trainer, bool isVram) : base(chr, prg, trainer, isVram) { }
-        public override void Initialize()
-        {
-            base.Initialize();
-            ApplyAdvancedMirroring();
-        }
     }
 }

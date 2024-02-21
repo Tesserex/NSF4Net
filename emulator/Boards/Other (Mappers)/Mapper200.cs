@@ -31,7 +31,6 @@ namespace MyNes.Core.Boards.Other__Mappers_
             Switch08kCHR(address & 0x7);
             Switch16KPRG(address & 0x7, 0x8000);
             Switch16KPRG(address & 0x7, 0xC000);
-            Nes.PpuMemory.SwitchMirroring((address & 0x8) == 0x8 ? Mirroring.ModeHorz : Mirroring.ModeVert);
         }
     }
 }

@@ -69,15 +69,6 @@ namespace MyNes.Core.Boards.Konami
                 case 0xD008:
                 case 0xD010: Switch01kCHR(data, 0x1C00); break;
 
-                case 0xE000:
-                    switch (data & 0x3)
-                    {
-                        case 0: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.ModeVert); break;
-                        case 1: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.ModeHorz); break;
-                        case 2: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.Mode1ScA); break;
-                        case 3: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.Mode1ScB); break;
-                    }
-                    break;
                 case 0xE008:
                 case 0xE010: irqReload = data; break;
                 case 0xF000:

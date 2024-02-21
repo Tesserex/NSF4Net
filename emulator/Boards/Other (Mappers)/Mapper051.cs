@@ -71,7 +71,6 @@ namespace MyNes.Core.Boards.Discreet
             }
 
             sramBank = (offset | (bank << 2)) << 13;
-            Nes.PpuMemory.SwitchMirroring((mode == 0x3) ? Types.Mirroring.ModeHorz : Types.Mirroring.ModeVert);
         }
 
         public override void SaveState(Types.StateStream stream)

@@ -52,18 +52,6 @@ namespace MyNes.Core.Boards.FFE
         {
             switch (address)
             {
-                case 0x42FE:
-                    if ((data & 0x10) != 0)
-                        Nes.PpuMemory.SwitchMirroring(Types.Mirroring.Mode1ScB);
-                    else
-                        Nes.PpuMemory.SwitchMirroring(Types.Mirroring.Mode1ScA);
-                    break;
-                case 0x42FF:
-                    if ((data & 0x10) != 0)
-                        Nes.PpuMemory.SwitchMirroring(Types.Mirroring.ModeHorz);
-                    else
-                        Nes.PpuMemory.SwitchMirroring(Types.Mirroring.ModeVert);
-                    break;
                 case 0x4501: IRQEnabled = false; Nes.Cpu.Interrupt(CPU.Cpu.IsrType.Brd, false); break;
                 case 0x4502: irq_counter = (short)((irq_counter & 0xFF00) | data); break;
                 case 0x4503: irq_counter = (short)((data << 8) | (irq_counter & 0x00FF)); IRQEnabled = true;

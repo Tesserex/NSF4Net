@@ -35,7 +35,6 @@ namespace MyNes.Core.Boards.Discreet
         {
             Switch08kCHR(data & 0xF);
             Switch16KPRG((data >> 4) & 0x7, 0x8000);
-            Nes.PpuMemory.SwitchMirroring((data & 0x80) == 0x80 ? Mirroring.Mode1ScB : Mirroring.Mode1ScA);
         }
     }
 }

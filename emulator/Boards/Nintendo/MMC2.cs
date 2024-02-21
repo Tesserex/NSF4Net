@@ -54,7 +54,6 @@ namespace MyNes.Core.Boards.Nintendo
                 case 0xC000: reg[1] = data; if (latch_a == 0xFE) base.Switch04kCHR(reg[1], 0x0000); break;
                 case 0xD000: reg[2] = data; if (latch_b == 0xFD) base.Switch04kCHR(reg[2], 0x1000); break;
                 case 0xE000: reg[3] = data; if (latch_b == 0xFE) base.Switch04kCHR(reg[3], 0x1000); break;
-                case 0xF000: Nes.PpuMemory.SwitchMirroring((data & 1) == 1 ? Types.Mirroring.ModeHorz : Types.Mirroring.ModeVert); break;
             }
         }
         private void CHRlatch(int Address)

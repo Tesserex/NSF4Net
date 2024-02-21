@@ -48,15 +48,6 @@ namespace MyNes.Core.Boards.Konami
                 case 0x9000:
                 case 0x9001:
                 case 0x9002:
-                case 0x9003:
-                    switch (data & 0x3)
-                    {
-                        case 0: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.ModeVert); break;
-                        case 1: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.ModeHorz); break;
-                        case 2: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.Mode1ScA); break;
-                        case 3: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.Mode1ScB); break;
-                    }
-                    break;
 
                 case 0xA000:
                 case 0xA001:

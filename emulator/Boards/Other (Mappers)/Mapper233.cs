@@ -52,14 +52,6 @@ namespace MyNes.Core.Boards.Other__Mappers_
             }
             else
                 Switch32KPRG(title >> 1 | bank >> 1);
-
-            switch ((data >> 6) & 0x3)
-            {
-                case 0: Nes.PpuMemory.SwitchMirroring(0x80); break;
-                case 1: Nes.PpuMemory.SwitchMirroring(Mirroring.ModeVert); break;
-                case 2: Nes.PpuMemory.SwitchMirroring(Mirroring.ModeHorz); break;
-                case 3: Nes.PpuMemory.SwitchMirroring(Mirroring.Mode1ScB); break;
-            }
         }
         public override void SaveState(StateStream stream)
         {

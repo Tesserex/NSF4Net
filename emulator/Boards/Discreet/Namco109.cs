@@ -52,7 +52,6 @@ namespace MyNes.Core.Boards.Discreet
                         case 0x7: Switch08KPRG(data, 0xA000); break;
                     }
                     break;
-                case 0xA000: Nes.PpuMemory.SwitchMirroring((data & 1) == 1 ? Mirroring.ModeHorz : Mirroring.ModeVert); break;
             }
         }
         public override void SaveState(StateStream stream)

@@ -28,7 +28,6 @@ namespace MyNes.Core.Boards.Other__Mappers_
 
         protected override void PokePrg(int address, byte data)
         {
-            Nes.PpuMemory.SwitchMirroring((address & 0x20) == 0x20 ? Mirroring.ModeHorz : Mirroring.ModeVert);
             Switch16KPRG((address & 0x1E) == 0x1E ? (address & 0x1F) : 0, 0x8000);
             Switch16KPRG((address & 0x1E) == 0x1E ? (address & 0x1F) : 1, 0xC000);
             Switch08kCHR(address);

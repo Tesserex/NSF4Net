@@ -48,8 +48,6 @@ namespace MyNes.Core.Boards.Discreet
         {
             base.Initialize();
 
-            Nes.Ppu.AddressLineUpdating = this.PPU_AddressLineUpdating;
-            Nes.Ppu.CycleTimer = this.TickPPU;
             Nes.Cpu.ClockCycle = this.TickCPU;
         }
         public override void HardReset()
@@ -104,7 +102,6 @@ namespace MyNes.Core.Boards.Discreet
                         case 0xF: prgRegs[2] = data; SetupPRG(); break;
                     }
                     break;
-                case 0xA000: Nes.PpuMemory.SwitchMirroring((data & 1) == 1 ? Mirroring.ModeHorz : Mirroring.ModeVert); break;
                 case 0xC000: irqReload = data; break;
                 case 0xC001: IrqMode = (data & 0x1) == 0x1; irqClear = true; irqPrescaler = 0; break;
                 case 0xE000: irqEnable = false; Nes.Cpu.Interrupt(CPU.Cpu.IsrType.Brd, false); break;
@@ -168,10 +165,7 @@ namespace MyNes.Core.Boards.Discreet
                 Switch08KPRG(prgRegs[2], 0xC000);
             }
         }
-        private void TickPPU()
-        {
-            timer++;
-        }
+
         private void TickCPU()
         {
             if (IrqMode)
@@ -181,24 +175,6 @@ namespace MyNes.Core.Boards.Discreet
                 {
                     irqPrescaler = 0;
                     ClockIRQ();
-                }
-            }
-        }
-        private void PPU_AddressLineUpdating(int addr)
-        {
-            if (!IrqMode)
-            {
-                oldA12 = newA12;
-                newA12 = addr & 0x1000;
-
-                if (oldA12 < newA12)
-                {
-                    if (timer > 8)
-                    {
-                        ClockIRQ();
-                    }
-
-                    timer = 0;
                 }
             }
         }

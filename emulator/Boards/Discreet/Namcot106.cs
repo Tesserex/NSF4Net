@@ -38,7 +38,6 @@ namespace MyNes.Core.Boards.Discreet
             // Maps prg writes to 0x8000 - 0xFFFF. Maps sram reads and writes to 0x6000 - 0x8000.
             // Then do a hard reset.
             Nes.CpuMemory.Hook(0x4018, 0x5FFF, PeekPrg, PokePrg);
-            Nes.PpuMemory.Hook(0x2000, 0x3EFF, PeekNmt, PokeNmt);
             Nes.Cpu.ClockCycle = TickIRQTimer;
             base.Initialize();
             EnableAdvancedMirroring = true;
@@ -52,25 +51,6 @@ namespace MyNes.Core.Boards.Discreet
             base.HardReset();
             Switch08KPRG((prg.Length - 0x2000) >> 13, 0xE000);
             CRAM = new byte[0x8000];//32 KB
-            //we must set nametables
-            if (EnableAdvancedMirroring)
-            {
-                switch (Nes.RomInfo.Mirroring)
-                {
-                    case Types.Mirroring.ModeVert:
-                        Nes.PpuMemory.nmtBank[0] = 0xE0;
-                        Nes.PpuMemory.nmtBank[1] = 0xE1;
-                        Nes.PpuMemory.nmtBank[2] = 0xE0;
-                        Nes.PpuMemory.nmtBank[3] = 0xE1;
-                        break;
-                    case Types.Mirroring.ModeHorz:
-                        Nes.PpuMemory.nmtBank[0] = 0xE0;
-                        Nes.PpuMemory.nmtBank[1] = 0xE0;
-                        Nes.PpuMemory.nmtBank[2] = 0xE1;
-                        Nes.PpuMemory.nmtBank[3] = 0xE1;
-                        break;
-                }
-            }
         }
         protected override void PokePrg(int address, byte data)
         {
@@ -129,11 +109,6 @@ namespace MyNes.Core.Boards.Discreet
                     else
                         Switch01kCHR((data & 0x1F) + (chr.Length >> 10), 0x1C00);
                     break;
-                /*Mirroring*/
-                case 0xC000: if (EnableAdvancedMirroring) Nes.PpuMemory.nmtBank[0] = data; break;
-                case 0xC800: if (EnableAdvancedMirroring) Nes.PpuMemory.nmtBank[1] = data; break;
-                case 0xD000: if (EnableAdvancedMirroring) Nes.PpuMemory.nmtBank[2] = data; break;
-                case 0xD800: if (EnableAdvancedMirroring) Nes.PpuMemory.nmtBank[3] = data; break;
                 /*prg*/
                 case 0xE000: Switch08KPRG(data & 0x3F, 0x8000); break;
                 case 0xE800:
@@ -169,18 +144,6 @@ namespace MyNes.Core.Boards.Discreet
             int taddress = this.DecodeChrAddress(address);
             if (taddress >= chr.Length)
                 CRAM[(taddress - chr.Length)] = data;
-        }
-        private void PokeNmt(int addr, byte data)
-        {
-            if (Nes.PpuMemory.nmtBank[(addr >> 10) & 0x03] >= 0xE0)
-                Nes.PpuMemory.nmt[(Nes.PpuMemory.nmtBank[(addr >> 10) & 0x03] - 0xE0) & 1][addr & 0x03FF] = data;
-        }
-        private byte PeekNmt(int addr)
-        {
-            if (Nes.PpuMemory.nmtBank[(addr >> 10) & 0x03] < 0xE0)
-                return chr[(Nes.PpuMemory.nmtBank[(addr >> 10) & 0x03] << 10) | (addr & 0x03FF)];
-            else
-                return Nes.PpuMemory.nmt[(Nes.PpuMemory.nmtBank[(addr >> 10) & 0x03] - 0xE0) & 1][addr & 0x03FF];
         }
         private void TickIRQTimer()
         {

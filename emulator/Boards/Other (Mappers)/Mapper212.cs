@@ -37,13 +37,11 @@ namespace MyNes.Core.Boards.Other__Mappers_
         {
             Switch16KPRG(address, 0x8000);
             Switch16KPRG(address, 0xC000);
-            Nes.PpuMemory.SwitchMirroring((address & 0x8) == 0x8 ? Mirroring.ModeHorz : Mirroring.ModeVert);
             Switch08kCHR(address);
         }
         private void PokeC000(int address, byte data)
         {
             Switch32KPRG(address >> 1);
-            Nes.PpuMemory.SwitchMirroring((address & 0x8) == 0x8 ? Mirroring.ModeHorz : Mirroring.ModeVert);
             Switch08kCHR(address);
         }
     }

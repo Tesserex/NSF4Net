@@ -66,17 +66,13 @@ namespace MyNes.Core.Boards.Other__Mappers_
         {
             base.Initialize();
             Nes.Cpu.ClockCycle = TickCPU;
-            Nes.Ppu.AddressLineUpdating = this.PPU_AddressLineUpdating;
             Nes.CpuMemory.Hook(0x5000, Peek5000);
             Nes.CpuMemory.Hook(0x5800, Peek5800, Poke5800);
             Nes.CpuMemory.Hook(0x5801, Peek5801, Poke5801);
             Nes.CpuMemory.Hook(0x5803, Peek5803, Poke5803);
         }
         // Call this at initialize to enable the advanced mirroring stuff for mapper 209.
-        protected void ApplyAdvancedMirroring()
-        {
-            Nes.PpuMemory.Hook(0x2000, 0x3EFF, PeekNmt, PokeNmt);
-        }
+
         public override void HardReset()
         {
             base.HardReset();
@@ -188,15 +184,6 @@ namespace MyNes.Core.Boards.Other__Mappers_
 
                     SetupPRG();
                     SetupCHR();
-                    break;
-                case 0xD001:
-                    switch (data & 0x3)
-                    {
-                        case 0: Nes.PpuMemory.SwitchMirroring(Mirroring.ModeVert); break;
-                        case 1: Nes.PpuMemory.SwitchMirroring(Mirroring.ModeHorz); break;
-                        case 2: Nes.PpuMemory.SwitchMirroring(Mirroring.Mode1ScA); break;
-                        case 3: Nes.PpuMemory.SwitchMirroring(Mirroring.Mode1ScB); break;
-                    }
                     break;
                 case 0xD002: NTRAM = (data & 0x80) == 0x80; break;
                 case 0xD003:
@@ -411,47 +398,6 @@ namespace MyNes.Core.Boards.Other__Mappers_
             return data;
         }
 
-        public byte PeekNmt(int addr)
-        {
-            if (!EnableAdvancedMirroring)
-            {
-                return Nes.PpuMemory.nmt[Nes.PpuMemory.nmtBank[(addr >> 10) & 0x03]][addr & 0x03FF];
-            }
-            else
-            {
-                if (disableNTRAM)
-                {
-                    return chr[(ntRegs[(addr >> 10) & 0x03] << 10) | (addr & 0x03FF)];
-                }
-                else
-                {
-                    if ((ntRegs[(addr >> 10) & 0x03] & 0x80) == 0x80 && NTRAM)
-                        return Nes.PpuMemory.nmt[ntRegs[(addr >> 10) & 0x03] & 1][addr & 0x03FF];
-                    else
-                        return chr[(ntRegs[(addr >> 10) & 0x03] << 10) | (addr & 0x03FF)];
-                }
-            }
-        }
-        public void PokeNmt(int addr, byte data)
-        {
-           // Nes.PpuMemory.nmt[Nes.PpuMemory.nmtBank[(addr >> 10) & 0x03]][addr & 0x03FF] = data;
-            if (!EnableAdvancedMirroring)
-            {
-                Nes.PpuMemory.nmt[Nes.PpuMemory.nmtBank[(addr >> 10) & 0x03]][addr & 0x03FF] = data;
-            }
-            else
-            {
-                if (disableNTRAM)
-                {
-                    //return chr[(ntRegs[(addr >> 10) & 0x03] << 10) | (addr & 0x03FF)];// what do suppose to do ? lol
-                }
-                else
-                {
-                    if ((ntRegs[(addr >> 10) & 0x03] & 0x80) == 0x80 && NTRAM)
-                        Nes.PpuMemory.nmt[ntRegs[(addr >> 10) & 0x03] & 1][addr & 0x03FF] = data;
-                }
-            }
-        }
         private void TickCPU()
         {
             if (irqSource == 0)
@@ -474,34 +420,7 @@ namespace MyNes.Core.Boards.Other__Mappers_
                 }
             }
         }
-        private void PPU_AddressLineUpdating(int addr)
-        {
-            if (irqSource == 1)
-            {
-                oldA12 = newA12;
-                newA12 = addr & 0x1000;
-
-                if (oldA12 < newA12)
-                {
-                    if (irqPrescalerSize)//3-bits
-                    {
-                        irqPrescaler = (irqPrescaler & 0xF8) | (((irqPrescaler & 0x7) + 1) & 0x7);
-                        if ((irqPrescaler & 0x7) == 0x7)
-                        {
-                            ClockIRQCounter();
-                        }
-                    }
-                    else//8-bits
-                    {
-                        irqPrescaler = (byte)(irqPrescaler + 1);
-                        if (irqPrescaler == 0xFF)
-                        {
-                            ClockIRQCounter();
-                        }
-                    }
-                }
-            }
-        }
+        
         private void ClockIRQCounter()
         {
             if (irqCountDownMode && irqCountUpMode)

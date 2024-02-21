@@ -36,7 +36,6 @@ namespace MyNes.Core.Boards.Sunsoft
         {
             Switch08kCHR((data & 0x7) | ((data & 0x80) >> 4));
             Switch16KPRG((data & 0x70) >> 4, 0x8000);
-            Nes.PpuMemory.SwitchMirroring((data & 0x8 )== 0x8 ? Mirroring.Mode1ScB : Mirroring.Mode1ScA);
         }
     }
 }

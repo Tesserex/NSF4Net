@@ -41,7 +41,6 @@ namespace MyNes.Core.Boards.Discreet
                     case 0x4100:
                         Switch32KPRG(((data & 0x38) >> 3));
                         Switch08kCHR((data & 0x7) | ((data & 0x40) >> 3));
-                        Nes.PpuMemory.SwitchMirroring((data & 0x80) == 0x80 ? Mirroring.ModeVert : Mirroring.ModeHorz);
                         break;
                 }
             }

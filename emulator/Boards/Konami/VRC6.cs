@@ -101,16 +101,6 @@ namespace MyNes.Core.Boards.Konami
             {
                 Switch16KPRG(data, 0x8000);
             }
-            else if (address == AD_B_3)
-            {
-                switch ((data & 0xC) >> 2)
-                {
-                    case 0: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.ModeVert); break;
-                    case 1: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.ModeHorz); break;
-                    case 2: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.Mode1ScA); break;
-                    case 3: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.Mode1ScB); break;
-                }
-            }
             else if ((address == AD_C_0) ||
                      (address == AD_C_1) ||
                      (address == AD_C_2) ||

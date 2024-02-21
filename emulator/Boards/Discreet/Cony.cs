@@ -142,17 +142,6 @@ namespace MyNes.Core.Boards.Discreet
             {
                 irqStep = ((data & 0x40) == 0x40);
             }
-
-            if ((diff & 0x03) == 0x03)
-            {
-                switch (data & 0x3)
-                {
-                    case 0: Nes.PpuMemory.SwitchMirroring(Mirroring.ModeVert); break;
-                    case 1: Nes.PpuMemory.SwitchMirroring(Mirroring.ModeHorz); break;
-                    case 2: Nes.PpuMemory.SwitchMirroring(Mirroring.Mode1ScA); break;
-                    case 3: Nes.PpuMemory.SwitchMirroring(Mirroring.Mode1ScB); break;
-                }
-            }
         }
         private void Poke8200(int address, byte data)
         {

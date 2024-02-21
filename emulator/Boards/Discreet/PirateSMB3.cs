@@ -90,7 +90,6 @@ namespace MyNes.Core.Boards.Discreet
                             Switch08KPRG((data & 0x0F) | (prgPage[address >> 13] & 0x10), address);
                         }
                         break;
-                    case 0x800: Nes.PpuMemory.SwitchMirroring((data & 0x1) == 0x1 ? Types.Mirroring.ModeVert : Types.Mirroring.ModeHorz); break;
                     case 0xC00: Switch01kCHR(data, (address & 0x7) << 10); break;
                 }
             }

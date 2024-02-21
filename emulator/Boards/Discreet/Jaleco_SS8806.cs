@@ -93,15 +93,6 @@ namespace MyNes.Core.Boards.Discreet
                     else
                         irqMask = 0xFFFF;
                     Nes.Cpu.Interrupt(CPU.Cpu.IsrType.Brd, false); break;
-                case 0xF002:
-                    switch (data & 0x3)
-                    {
-                        case 0: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.ModeHorz); break;
-                        case 1: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.ModeVert); break;
-                        case 2: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.Mode1ScA); break;
-                        case 3: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.Mode1ScB); break;
-                    }
-                    break;
             }
         }
         protected override void PokeSram(int address, byte data)

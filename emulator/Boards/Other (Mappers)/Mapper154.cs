@@ -38,7 +38,6 @@ namespace MyNes.Core.Boards.Discreet
         {
             switch (address & 0x8001)
             {
-                case 0x8000: index = data & 0x7; Nes.PpuMemory.SwitchMirroring((data & 0x40) == 0x40 ? Mirroring.Mode1ScB : Mirroring.Mode1ScA); break;
                 case 0x8001: switch (index)
                     {
                         case 0: Switch02kCHR((data >> 1) & 0x3F, 0x0000); break;

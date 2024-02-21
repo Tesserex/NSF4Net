@@ -49,12 +49,6 @@ namespace MyNes.Core.Boards.Discreet
                     case 0xE000:
                     case 0xD000:
                     case 0xC000: base.Switch16KPRG((data & 0x0F), 0x8000); break;
-                    case 0x9000:
-                        if ((data & 0x10) != 0)
-                            Nes.PpuMemory.SwitchMirroring(MyNes.Core.Types.Mirroring.Mode1ScB);
-                        else
-                            Nes.PpuMemory.SwitchMirroring(MyNes.Core.Types.Mirroring.Mode1ScA);
-                        break;
                 }
 
         }

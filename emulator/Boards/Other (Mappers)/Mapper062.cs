@@ -41,9 +41,6 @@ namespace MyNes.Core.Boards.Discreet
             //switch chr
             page = ((address & 0x001F) << 2) | (data & 0x03);
             Switch08kCHR(page);
-
-            //mirroring
-            Nes.PpuMemory.SwitchMirroring((address & 0x80) == 0x80 ? Types.Mirroring.ModeHorz : Types.Mirroring.ModeVert);
         }
     }
 }

@@ -47,13 +47,6 @@ namespace MyNes.Core.Boards.Nintendo
         protected int newA12;
         protected int timer;
 
-        public override void Initialize()
-        {
-            base.Initialize();
-
-            Nes.Ppu.AddressLineUpdating = this.PPU_AddressLineUpdating;
-            Nes.Ppu.CycleTimer = this.TickPPU;
-        }
         public override void HardReset()
         {
             base.HardReset();
@@ -99,7 +92,6 @@ namespace MyNes.Core.Boards.Nintendo
             {
                 case 0x8000: Poke8000(address, data); break;
                 case 0x8001: Poke8001(address, data); break;
-                case 0xA000: PokeA000(address, data); break;
                 case 0xA001: PokeA001(address, data); break;
                 case 0xC000: PokeC000(address, data); break;
                 case 0xC001: PokeC001(address, data); break;
@@ -129,11 +121,7 @@ namespace MyNes.Core.Boards.Nintendo
                 case 7: prgRegs[1] = (byte)(data & 0x3F); SetupPRG(); break;
             }
         }
-        protected virtual void PokeA000(int address, byte data)
-        {
-            if (Nes.RomInfo.Mirroring != Mirroring.ModeFull)
-                Nes.PpuMemory.SwitchMirroring(((data & 1) == 0) ? Mirroring.ModeVert : Mirroring.ModeHorz);
-        }
+        
         protected virtual void PokeA001(int address, byte data)
         {
             wramON = (data & 0x80) == 0x80; wramReadOnly = (data & 0x40) == 0x40;

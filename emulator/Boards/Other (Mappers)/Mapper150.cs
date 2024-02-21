@@ -86,13 +86,6 @@ namespace MyNes.Core.Boards.Discreet
 
                     banks[1] = ((chrPage[0] >> 13) & ~0x3) | (data << 0 & 0x3);
                     break;
-
-                case 0x7:
-                    {
-                        byte[] mirr = { 5, 3, 7, 0 };
-                        Nes.PpuMemory.SwitchMirroring(mirr[data >> 1 & 0x3]);
-                        return;
-                    }
             }
 
             if (banks[0] != ~0)

@@ -52,7 +52,6 @@ namespace MyNes.Core.Boards.Discreet
 
                 vromReg = (vromReg & 0x03) | ((address >> 1) & 0x0C);
                 Switch08kCHR(vromReg);
-                Nes.PpuMemory.SwitchMirroring((address & 0x20) == 0x20 ? Types.Mirroring.ModeHorz : Types.Mirroring.ModeVert);
             }
             else
             {

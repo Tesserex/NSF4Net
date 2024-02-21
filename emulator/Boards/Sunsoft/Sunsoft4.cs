@@ -30,11 +30,6 @@ namespace MyNes.Core.Boards.Sunsoft
         private int ntAbank = 0;
         private int ntBbank = 0;
 
-        public override void Initialize()
-        {
-            base.Initialize();
-            Nes.PpuMemory.Hook(0x2000, 0x3EFF, PeekNmt, PokeNmt);
-        }
         public override void HardReset()
         {
             base.HardReset();
@@ -55,31 +50,11 @@ namespace MyNes.Core.Boards.Sunsoft
                 case 0xC000: ntAbank = (data & 0x7F) | 0x80; break;
                 case 0xD000: ntBbank = (data & 0x7F) | 0x80; break;
 
-                case 0xE000: Nes.PpuMemory.SwitchMirroring((data & 0x1) == 0x1 ? Mirroring.ModeHorz : Mirroring.ModeVert);
+                case 0xE000:
                     ntMode = (data & 0x10) == 0x10;
                     break;
 
                 case 0xF000: Switch16KPRG(data, 0x8000); break;
-            }
-        }
-        public void PokeNmt(int addr, byte data)
-        {
-            //if (!ntMode)//normal mode
-            Nes.PpuMemory.nmt[Nes.PpuMemory.nmtBank[(addr >> 10) & 0x03]][addr & 0x03FF] = data;
-        }
-        public byte PeekNmt(int addr)
-        {
-            if (!ntMode)//normal mode
-                return Nes.PpuMemory.nmt[Nes.PpuMemory.nmtBank[(addr >> 10) & 0x03]][addr & 0x03FF];
-            else
-            {
-                switch (Nes.PpuMemory.nmtBank[(addr >> 10) & 0x03])
-                {
-                    case 0: return chr[(ntAbank << 10) | (addr & 0x03FF)];// NTA
-                    case 1: return chr[(ntBbank << 10) | (addr & 0x03FF)];// NTA
-                }
-                //should not reach here, make the compailer happy
-                return chr[(ntAbank << 10) | (addr & 0x03FF)];
             }
         }
 

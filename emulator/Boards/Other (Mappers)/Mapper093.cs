@@ -36,7 +36,6 @@ namespace MyNes.Core.Boards.Discreet
         protected override void PokePrg(int address, byte data)
         {
             Switch16KPRG((data & 0xF0) >> 4, 0x8000);
-            Nes.PpuMemory.SwitchMirroring((data & 1) == 1 ? Mirroring.ModeHorz : Mirroring.ModeVert);
         }
     }
 }

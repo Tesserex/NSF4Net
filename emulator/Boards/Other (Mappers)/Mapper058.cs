@@ -37,7 +37,6 @@ namespace MyNes.Core.Boards.Discreet
                 Switch32KPRG(address & 0x7);
             }
             Switch08kCHR((address & 0x38) >> 3);
-            Nes.PpuMemory.SwitchMirroring((address & 0x80) == 0x80 ? Types.Mirroring.ModeHorz : Types.Mirroring.ModeVert);
         }
     }
 }

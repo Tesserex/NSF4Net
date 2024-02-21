@@ -67,9 +67,6 @@ namespace MyNes.Core.Boards.Nintendo
             base.Initialize();
             Nes.CpuMemory.Hook(0x4018, 0x5FFF, PeekPrg, PokePrg);
             Nes.CpuMemory.Hook(0x6000, 0x7FFF, PeekSram, PokeSram);
-            Nes.PpuMemory.Hook(0x2000, 0x3EFF, NmtPeek, NmtPoke);
-
-            Nes.Ppu.ScanlineTimer = TickIRQTimer;
 
             //sound channels
             externalSound = new MMC5ExternalSound();
@@ -306,22 +303,6 @@ C=%11:    | $5128 | $5129 | $512A | $512B |
                     }
                     break;
                 #endregion
-                //Mirroring
-                case 0x5105: Nes.PpuMemory.SwitchNmt(data); break;
-                //Fill-mode tile
-                case 0x5106:
-                    for (int i = 0; i < 0x3C0; i++)
-                        Nes.PpuMemory.nmt[3][i] = data;
-                    break;
-                //Fill-mode color
-                case 0x5107:
-                    for (int i = 0x3C0; i < (0x3C0 + 0x40); i++)
-                    {
-                        byte value = (byte)((2 << (data & 0x03)) | (data & 0x03));
-                        value |= (byte)((value & 0x0F) << 4);
-                        Nes.PpuMemory.nmt[3][i] = value;
-                    }
-                    break;
 
                 //Split Screen
                 case 0x5200: split_control = data; break;
@@ -335,27 +316,6 @@ C=%11:    | $5128 | $5129 | $512A | $512B |
                 //8 * 8 -> 16 Multiplier
                 case 0x5205: Multiplier_A = data; break;
                 case 0x5206: Multiplier_B = data; break;
-
-                default:
-                    if (address >= 0x5C00 && address <= 0x5FFF)
-                    {
-                        if (ExRAMmode == 2)
-                        {
-                            Nes.PpuMemory.nmt[2][(ushort)(address & 0x3FF)] = data;
-                        }
-                        else if (ExRAMmode != 3)
-                        {
-                            if ((IRQStatus & 0x40) == 0x40)
-                            {
-                                Nes.PpuMemory.nmt[2][(ushort)(address & 0x3FF)] = data;
-                            }
-                            else
-                            {
-                                Nes.PpuMemory.nmt[2][(ushort)(address & 0x3FF)] = 0;
-                            }
-                        }
-                    }
-                    break;
             }
         }
         protected override byte PeekPrg(int address)
@@ -383,82 +343,12 @@ C=%11:    | $5128 | $5129 | $512A | $512B |
                         return (byte)((Multiplier_A * Multiplier_B) >> 8);
                 }
             }
-            else if (address >= 0x5C00 && address <= 0x5FFF)
-            {
-                if (ExRAMmode >= 2)
-                {
-                    return Nes.PpuMemory.nmt[2][address & 0x3FF];
-                }
-            }
             else if (address >= 0x8000)
                 return base.PeekPrg(address);
 
             return data;
         }
 
-        protected override byte PeekChr(int address)
-        {
-            if (ExRAMmode != 1)
-            {
-                if (Nes.Ppu.IsBGFetchTime() & Nes.Ppu.IsOamSize())
-                    return chr[((address & 0x03FF) | chrBGPage[address >> 10 & 0x07])];
-                else
-                    return base.PeekChr(address);
-            }
-            else//Extended Attribute mode
-            {
-                if (Nes.Ppu.IsBGFetchTime())//bk fetch
-                {
-                    int EXtilenumber = Nes.PpuMemory.nmt[2][lastAccessVRAM] & 0x3F;
-                    Switch04kCHRExtra(EXtilenumber, address & 0x1000);
-                    return chr[((address & 0x03FF) | EXChrBank[address >> 10 & 0x07])];
-                }
-                else//Sprites are not effected
-                    return base.PeekChr(address);
-            }
-        }
-        protected override void PokeChr(int address, byte data)
-        {
-            if (Nes.Ppu.IsBGFetchTime() & Nes.Ppu.IsOamSize())
-                chr[((address & 0x03FF) | chrBGPage[address >> 10 & 0x07])] = data;
-            else
-                base.PokeChr(address, data);
-        }
-        private byte NmtPeek(int addr)
-        {
-            if (ExRAMmode == 1)
-            {
-                if ((addr & 0x03FF) <= 0x3BF)
-                {
-                    lastAccessVRAM = addr & 0x03FF;
-                }
-                else
-                {
-                    int paletteNo = Nes.PpuMemory.nmt[2][lastAccessVRAM] & 0xC0;
-                    //Fix Attribute bits
-                    int shift = ((lastAccessVRAM >> 4 & 0x04) | (lastAccessVRAM & 0x02));
-                    switch (shift)
-                    {
-                        case 0: return (byte)(paletteNo >> 6);
-                        case 2: return (byte)(paletteNo >> 4);
-                        case 4: return (byte)(paletteNo >> 2);
-                        case 6: return (byte)(paletteNo >> 0);
-                    }
-                }
-            }
-            return Nes.PpuMemory.nmt[Nes.PpuMemory.nmtBank[addr >> 10 & 0x03]][addr & 0x03FF];
-        }
-        private void NmtPoke(int addr, byte data)
-        {
-            if (ExRAMmode == 1)
-            {
-                if ((addr & 0x03FF) <= 0x3BF)
-                {
-                    lastAccessVRAM = addr & 0x03FF;
-                }
-            }
-            Nes.PpuMemory.nmt[Nes.PpuMemory.nmtBank[addr >> 10 & 0x03]][addr & 0x03FF] = data;
-        }
         protected override void PokeSram(int address, byte data)
         {
             if (sramWritable)
@@ -469,35 +359,6 @@ C=%11:    | $5128 | $5129 | $512A | $512B |
             return sram[(address - 0x6000) | sramPage];
         }
 
-        private void TickIRQTimer()
-        {
-            if (Nes.Ppu.IsRenderingOn())
-            {
-                if (Nes.Ppu.IsRenderingScanline())
-                {
-                    irq_scanline++;
-                    IRQStatus |= 0x40;
-                    irq_clear = 0;
-                }
-            }
-
-            if (irq_scanline == irq_line)
-            {
-                IRQStatus |= 0x80;
-            }
-
-            if (++irq_clear > 2)
-            {
-                irq_scanline = 0;
-                IRQStatus &= ~0x80;
-                IRQStatus &= ~0x40;
-
-                Nes.Cpu.Interrupt(CPU.Cpu.IsrType.Brd, false);
-            }
-
-            if ((irq_enable & 0x80) == 0x80 && (IRQStatus & 0x80) == 0x80 && (IRQStatus & 0x40) == 0x40)
-                Nes.Cpu.Interrupt(CPU.Cpu.IsrType.Brd, true);
-        }
         /*New switches for bg chr*/
         /// <summary>
         /// Switch 1k chr bank to area

@@ -36,7 +36,6 @@ namespace MyNes.Core.Boards.Discreet
             if (Nes.RomInfo.SHA1.ToUpper() == "7E4180432726A433C46BA2206D9E13B32761C11E")
             {
                 enableMirroringSwitch = false;
-                Nes.PpuMemory.SwitchMirroring(Types.Mirroring.Mode1ScA);
             }
             else
                 enableMirroringSwitch = true;
@@ -71,7 +70,6 @@ namespace MyNes.Core.Boards.Discreet
                 case 0x9006:
                 case 0x9007:
                     prgmode = (data & 0x2) == 0x2;
-                    if (enableMirroringSwitch) Nes.PpuMemory.SwitchMirroring(((data & 0x1) == 0) ? Types.Mirroring.ModeVert : Types.Mirroring.ModeHorz);
                     break;
 
                 case 0xA000:

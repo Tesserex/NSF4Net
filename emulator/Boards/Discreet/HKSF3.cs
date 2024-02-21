@@ -33,13 +33,6 @@ namespace MyNes.Core.Boards.Discreet
         protected int newA12;
         protected int timer;
 
-        public override void Initialize()
-        {
-            base.Initialize();
-
-            Nes.Ppu.AddressLineUpdating = this.PPU_AddressLineUpdating;
-            Nes.Ppu.CycleTimer = this.TickPPU;
-        }
         public override void HardReset()
         {
             base.HardReset();
@@ -65,32 +58,6 @@ namespace MyNes.Core.Boards.Discreet
                 case 0x7001: Switch08KPRG(data & 0xF, 0xA000); break;
                 case 0x7002: IrqEnable = false; Nes.Cpu.Interrupt(CPU.Cpu.IsrType.Brd, false); break;
                 case 0x7003: irqReload = 7; irqCounter = 0; IrqEnable = true; break;
-            }
-        }
-        private void TickPPU()
-        {
-            timer++;
-        }
-        private void PPU_AddressLineUpdating(int addr)
-        {
-            oldA12 = newA12;
-            newA12 = addr & 0x1000;
-
-            if (oldA12 < newA12)
-            {
-                if (timer > 8)
-                {
-                    int old = irqCounter;
-
-                    if (irqCounter == 0)
-                        irqCounter = irqReload;
-                    else
-                        irqCounter = (byte)(irqCounter - 1);
-
-                    if ((old != 0) && irqCounter == 0 && IrqEnable)
-                        Nes.Cpu.Interrupt(CPU.Cpu.IsrType.Brd, true);
-                }
-                timer = 0;
             }
         }
 

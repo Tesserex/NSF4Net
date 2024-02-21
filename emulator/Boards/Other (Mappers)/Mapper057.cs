@@ -67,7 +67,6 @@ namespace MyNes.Core.Boards.Discreet
                         Switch16KPRG((data & 0xE0) >> 5, 0x8000);
                         Switch16KPRG((data & 0xE0) >> 5, 0xC000);
                     }
-                    Nes.PpuMemory.SwitchMirroring(((data & 0x8) == 0x8) ? Types.Mirroring.ModeHorz : Types.Mirroring.ModeVert);
                     break;
             }
         }

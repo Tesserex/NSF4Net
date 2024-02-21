@@ -27,11 +27,7 @@ namespace MyNes.Core.Boards.Discreet
         public Future(byte[] chr, byte[] prg, byte[] trainer, bool isVram) : base(chr, prg, trainer, isVram) { }
         byte irq_counter = 0;
         byte irq_enable = 0;
-        public override void Initialize()
-        {
-            base.Initialize();
-            Nes.Ppu.ScanlineTimer = TickScanlineTimer;
-        }
+
         public override void HardReset()
         {
             base.HardReset();
@@ -57,17 +53,6 @@ namespace MyNes.Core.Boards.Discreet
                 case 0xC002:
                 case 0xC003: irq_counter = data; Nes.Cpu.Interrupt(CPU.Cpu.IsrType.Brd, false); break;
                 case 0xE000: irq_enable = (byte)(data & 1); break;
-            }
-        }
-        public void TickScanlineTimer()
-        {
-            if (irq_enable != 0)
-            {
-                if (irq_counter ==Nes.Ppu.vclock)
-                {
-                    irq_counter = 0;
-                    Nes.Cpu.Interrupt(CPU.Cpu.IsrType.Brd, true);
-                }
             }
         }
     }

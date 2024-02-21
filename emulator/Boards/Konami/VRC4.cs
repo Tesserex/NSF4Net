@@ -123,16 +123,6 @@ namespace MyNes.Core.Boards.Konami
             {
                 prgRegs[0] = (byte)(data & 0x1F); SetupPRG();
             }
-            else if ((address == AD_9_0) || (address == AD_9_1) || (address == AD_9_1_1))
-            {
-                switch (data & 0x3)
-                {
-                    case 0: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.ModeVert); break;
-                    case 1: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.ModeHorz); break;
-                    case 2: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.Mode1ScA); break;
-                    case 3: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.Mode1ScB); break;
-                }
-            }
             else if ((address == AD_9_2) || (address == AD_9_2_2) || (address == AD_9_3) || (address == AD_9_3_3))
             {
                 prgMode = (data & 0x2) == 0x2;

@@ -44,7 +44,6 @@ namespace MyNes.Core.Boards.Discreet
         {
             regs[0] = data;
             UpdatePrg();
-            Nes.PpuMemory.SwitchMirroring((data & 0x20) == 0x20 ? Types.Mirroring.ModeHorz : Types.Mirroring.ModeVert);
         }
         protected override byte PeekSram(int address)
         {

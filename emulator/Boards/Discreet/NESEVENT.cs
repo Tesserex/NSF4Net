@@ -85,23 +85,6 @@ namespace MyNes.Core.Boards.Discreet
             shift = buffer = 0;
             switch (address)
             {
-                case 0://8000-9FFF
-                    if ((reg[0] & 0x02) == 0x02)
-                    {
-                        if ((reg[0] & 0x01) != 0)
-                            Nes.PpuMemory.SwitchMirroring(Mirroring.ModeHorz);
-                        else
-                            Nes.PpuMemory.SwitchMirroring(Mirroring.ModeVert);
-                    }
-                    else
-                    {
-                        if ((reg[0] & 0x01) != 0)
-                            Nes.PpuMemory.SwitchMirroring(Mirroring.Mode1ScB);
-                        else
-                            Nes.PpuMemory.SwitchMirroring(Mirroring.Mode1ScA);
-                    }
-                    break;
-
                 case 1://A000-BFFF [...I OAA.]
                     IRQcontrol = (reg[1] & 0x10) == 0x10;//I
                     if (IRQcontrol)

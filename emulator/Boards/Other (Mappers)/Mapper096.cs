@@ -35,7 +35,6 @@ namespace MyNes.Core.Boards.Discreet
             // 32 KBytes of chr ram ...
             chr = new byte[1024 * 32];
             chrMask = chr.Length - 1;
-            Nes.Ppu.AddressLineUpdating = this.PPU_AddressLineUpdating;
         }
         public override void HardReset()
         {
@@ -47,18 +46,7 @@ namespace MyNes.Core.Boards.Discreet
             Switch32KPRG(data & 0x3);
             chrBlockSelect = (data & 0x4) == 0x4;
         }
-        private void PPU_AddressLineUpdating(int addr)
-        {
-            if ((addr >= 0x2000 & addr <= 0x2FFF) || (addr >= 0x6000 & addr <= 0x6FFF)
-             || (addr >= 0xA000 & addr <= 0xAFFF) || (addr >= 0xE000 & addr <= 0xEFFF))
-            {
-                if ((addr & 0x03FF) < 0x03C0)
-                {
-                    Switch04kCHR(((addr & 0x0300) >> 8) + (chrBlockSelect ? 15 : 00), 0x0000);
-                    Switch04kCHR(chrBlockSelect ? 18 : 3, 0x1000);
-                }
-            }
-        }
+
         public override void SaveState(StateStream stream)
         {
             base.SaveState(stream);

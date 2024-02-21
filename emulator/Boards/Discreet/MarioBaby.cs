@@ -61,13 +61,6 @@ namespace MyNes.Core.Boards.Discreet
                         SRAM_PRG_Page = data << 13;
                         break;
 
-                    case 0xE001:
-                        if ((data & 0x8) == 0x8)
-                            Nes.PpuMemory.SwitchMirroring(Types.Mirroring.ModeHorz);
-                        else
-                            Nes.PpuMemory.SwitchMirroring(Types.Mirroring.ModeVert);
-                        break;
-
                     case 0xE002:
                         irqEnable = (data & 2) == 2;
                         if (!irqEnable)

@@ -31,7 +31,6 @@ namespace MyNes.Core.Boards.Discreet
             switch (address & 0xE001)
             {
                 case 0x8000: break;
-                case 0x8001: PokeA000(address, data); break;
                 case 0xA000: Poke8000(address, data); break;
                 case 0xA001: break;
                 case 0xC000: Poke8001(address, data); break;

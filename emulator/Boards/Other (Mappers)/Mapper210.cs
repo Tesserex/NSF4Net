@@ -28,8 +28,6 @@ namespace MyNes.Core.Boards.Other__Mappers_
         {
             base.Initialize();
             EnableAdvancedMirroring = false;
-            // reset mapping
-            Nes.PpuMemory.Initialize();
         }
     }
 }

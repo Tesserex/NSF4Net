@@ -23,7 +23,6 @@ using MyNes.Core.CPU;
 using MyNes.Core.Exceptions;
 using MyNes.Core.IO.Input;
 using MyNes.Core.IO.Output;
-using MyNes.Core.PPU;
 using MyNes.Core.ROM;
 using MyNes.Core.Types;
 using MyNes.Core.Database;
@@ -34,10 +33,8 @@ namespace MyNes.Core
     public class Nes
     {
         public static Cpu Cpu;
-        public static Ppu Ppu;
         public static Apu Apu;
         public static CpuMemory CpuMemory;
-        public static PpuMemory PpuMemory;
         public static Board Board;
         public static ControlsUnit ControlsUnit;
         //devices

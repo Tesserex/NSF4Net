@@ -55,7 +55,6 @@ namespace MyNes.Core.Boards.Other__Mappers_
                 case 0x8000:
                     prgReg = (prgReg & 0xE0) | (data & 0x1F) | ((data & 0x80) >> 2);
                     prgMode = (data & 0x20) == 0x20;
-                    Nes.PpuMemory.SwitchMirroring((data & 0x40) == 0x40 ? Mirroring.ModeVert : Mirroring.ModeHorz);
                     SetupPRG();
                     break;
                 case 0x8001: prgReg = (prgReg & 0x7F) | ((data & 1) << 7); SetupPRG(); break;

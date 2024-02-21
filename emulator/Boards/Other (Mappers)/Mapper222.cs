@@ -37,7 +37,6 @@ namespace MyNes.Core.Boards.Other__Mappers_
                 case 0x8000:
                     Switch08KPRG(data,0x8000);
                     break;
-                case 0x9000: Nes.PpuMemory.SwitchMirroring((data & 1) == 1 ? Mirroring.ModeHorz : Mirroring.ModeVert); break;
                 case 0xA000:
                     Switch08KPRG( data, 0xA000);
                     break;

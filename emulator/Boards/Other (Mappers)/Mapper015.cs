@@ -59,7 +59,6 @@ namespace MyNes.Core.Boards.Discreet
                     break;
 
             }
-            Nes.PpuMemory.SwitchMirroring((data & 0x40) == 0x40 ? Types.Mirroring.ModeHorz : Types.Mirroring.ModeVert);
         }
     }
 }

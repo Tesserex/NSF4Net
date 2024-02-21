@@ -45,7 +45,6 @@ namespace MyNes.Core.Boards.Other__Mappers_
             {
                 Switch16KPRG(0, 0x8000);
                 Switch16KPRG(7, 0xC000);
-                Nes.PpuMemory.SwitchMirroring(Mirroring.ModeVert);
             }
             else
             {
@@ -61,15 +60,11 @@ namespace MyNes.Core.Boards.Other__Mappers_
             {
                 Switch16KPRG(data & 0x7, 0x8000);
                 Switch16KPRG(7, 0xC000);
-                Nes.PpuMemory.SwitchMirroring(Mirroring.ModeVert);
             }
             else
             {
-                Nes.PpuMemory.SwitchMirroring((data & 0x40) == 0x40 ? Mirroring.ModeVert : Mirroring.ModeHorz);
-
                 Switch16KPRG((data & 0x1F) + 8, 0x8000);
                 Switch16KPRG((data & 0x1F) + 8 | (~data >> 5 & 0x1), 0xC000);
-
             }
         }
     }

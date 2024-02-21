@@ -46,7 +46,6 @@ namespace MyNes.Core.Boards.Discreet
                 case 0x7EF5: Switch01kCHR(data, chrMode ? 0x0C00 : 0x1C00); break;
                 case 0x7EF6:
                     chrMode = (data & 0x2) == 0x2;
-                    Nes.PpuMemory.SwitchMirroring((data & 0x1) == 1 ? Mirroring.ModeVert : Mirroring.ModeHorz);
                     break;
                 case 0x7EFA: Switch08KPRG(data >> 2, 0x8000); break;
                 case 0x7EFB: Switch08KPRG(data >> 2, 0xA000); break;

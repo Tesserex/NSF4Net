@@ -34,8 +34,6 @@ namespace MyNes.Core.Boards.Other__Mappers_
         }
         protected override void PokePrg(int address, byte data)
         {
-            Nes.PpuMemory.SwitchMirroring((address & 0x1) == 1 ? Mirroring.ModeHorz : Mirroring.ModeVert);
-
             int bank = address >> 1 & 0x7;
             Switch16KPRG(bank, 0x8000);
             Switch16KPRG(bank + (address & 0xC) == 0xC ? 1 : 0, 0xC000);

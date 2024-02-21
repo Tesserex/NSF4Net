@@ -57,15 +57,6 @@ namespace MyNes.Core.Boards.Discreet
                 case 0x6: base.Switch01kCHR(data, 0x1800); break;
                 case 0x7: base.Switch01kCHR(data, 0x1C00); break;
                 case 0x8: base.Switch16KPRG(data, 0x8000); break;
-                case 0x9:
-                    switch (data)
-                    {
-                        case 0: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.ModeVert); break;
-                        case 1: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.ModeHorz); break;
-                        case 2: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.Mode1ScA); break;
-                        case 3: Nes.PpuMemory.SwitchMirroring(Types.Mirroring.Mode1ScB); break;
-                    }
-                    break;
                 case 0xA: irqEnable = (data & 1) == 1; Nes.Cpu.Interrupt(CPU.Cpu.IsrType.Brd, false); break;
                 case 0xB: irqCounter = (irqCounter & 0xFF00) | data; break;
                 case 0xC: irqCounter = (irqCounter & 0x00FF) | (data << 8); break;

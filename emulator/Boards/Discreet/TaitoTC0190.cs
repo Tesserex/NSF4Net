@@ -38,9 +38,7 @@ namespace MyNes.Core.Boards.Discreet
 
         public override void Initialize()
         {
-            base.Initialize();
-            Nes.Ppu.AddressLineUpdating = this.PPU_AddressLineUpdating;
-            Nes.Ppu.CycleTimer = this.TickPPU; 
+            base.Initialize(); 
             MODE = false;
             //since some game function like 48 but assigned as 33, we need to add some cases here
             if (Path.GetFileNameWithoutExtension(Nes.RomInfo.Path).Contains("Don Doko Don") &&
@@ -73,7 +71,6 @@ namespace MyNes.Core.Boards.Discreet
                 {
                     case 0x8000:
                         Switch08KPRG(data & 0x3F, 0x8000);
-                        Nes.PpuMemory.SwitchMirroring((data & 0x40) == 0x40 ? Types.Mirroring.ModeHorz : Types.Mirroring.ModeVert);
                         break;
                     case 0x8001: Switch08KPRG(data & 0x3F, 0xA000); break;
                     case 0x8002: Switch02kCHR(data, 0x0000); break;
@@ -100,8 +97,6 @@ namespace MyNes.Core.Boards.Discreet
                     case 0xA002: Switch01kCHR(data, 0x1800); break;
                     case 0xA003: Switch01kCHR(data, 0x1C00); break;
 
-                    case 0xE000: Nes.PpuMemory.SwitchMirroring((data & 0x40) == 0x40 ? Types.Mirroring.ModeHorz : Types.Mirroring.ModeVert); break;
-
                     case 0xC000: irqReload = (byte)(data ^ 0xFF); break;
                     case 0xC001: if (mmc3_alt_behavior) clear = true; irqCounter = 0; break;
                     case 0xC002: IrqEnable = true; break;
@@ -109,40 +104,6 @@ namespace MyNes.Core.Boards.Discreet
                 }
             }
         }
-        private void TickPPU()
-        {
-            if (!MODE)//no irqs in mapper 33
-                timer++;
-        }
-        private void PPU_AddressLineUpdating(int addr)
-        {
-            if (!MODE)//no irqs in mapper 33
-            {
-                oldA12 = newA12;
-                newA12 = addr & 0x1000;
-
-                if (oldA12 < newA12)
-                {
-                    if (timer > 8)
-                    {
-                        int old = irqCounter;
-
-                        if (irqCounter == 0 || clear)
-                            irqCounter = irqReload;
-                        else
-                            irqCounter = (byte)(irqCounter - 1);
-
-                        if ((!mmc3_alt_behavior || old != 0 || clear) && irqCounter == 0 && IrqEnable)
-                            Nes.Cpu.Interrupt(CPU.Cpu.IsrType.Brd, true);
-
-                        clear = false;
-                    }
-
-                    timer = 0;
-                }
-            }
-        }
-
         public override void SaveState(Types.StateStream stream)
         {
             base.SaveState(stream);

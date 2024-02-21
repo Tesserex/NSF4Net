@@ -82,15 +82,6 @@ namespace MyNes.Core.Boards.Sunsoft
                         case 0x9: Switch08KPRG(data, 0x8000); break;
                         case 0xA: Switch08KPRG(data, 0xA000); break;
                         case 0xB: Switch08KPRG(data, 0xC000); break;
-                        case 0xC:
-                            switch (data & 0x3)
-                            {
-                                case 0: Nes.PpuMemory.SwitchMirroring(Mirroring.ModeVert); break;
-                                case 1: Nes.PpuMemory.SwitchMirroring(Mirroring.ModeHorz); break;
-                                case 2: Nes.PpuMemory.SwitchMirroring(Mirroring.Mode1ScA); break;
-                                case 3: Nes.PpuMemory.SwitchMirroring(Mirroring.Mode1ScB); break;
-                            }
-                            break;
                         case 0xD:
                             irqEnableCountdown = (data & 0x80) == 0x80;
                             irqEnableTriggiring = (data & 0x1) == 0x1;

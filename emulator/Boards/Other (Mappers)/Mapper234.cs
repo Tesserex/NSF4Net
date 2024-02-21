@@ -51,7 +51,6 @@ namespace MyNes.Core.Boards.Other__Mappers_
             if ((regs[0] & 0x3F) == 0)
             {
                 regs[0] = data;
-                Nes.PpuMemory.SwitchMirroring((data & 0x80) == 0x80 ? Mirroring.ModeHorz : Mirroring.ModeVert);
                 Setup();
             }
         }

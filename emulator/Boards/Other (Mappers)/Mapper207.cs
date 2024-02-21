@@ -29,11 +29,6 @@ namespace MyNes.Core.Boards.Other__Mappers_
         private int mirroring1 = 0;
         private int mirroring2 = 0;
 
-        public override void Initialize()
-        {
-            base.Initialize();
-            Nes.PpuMemory.Hook(0x2000, 0x3EFF, PeekNmt, PokeNmt);
-        }
         public override void HardReset()
         {
             base.HardReset();
@@ -58,27 +53,6 @@ namespace MyNes.Core.Boards.Other__Mappers_
                 case 0x7EFD: Switch08KPRG(data, 0xA000); break;
                 case 0x7EFE:
                 case 0x7EFF: Switch08KPRG(data, 0xC000); break;
-            }
-        }
-        public byte PeekNmt(int addr)
-        {
-            switch ((addr >> 10) & 0x03)
-            {
-                case 0: return Nes.PpuMemory.nmt[mirroring1][(addr & 0x03FF)];
-                case 1: return Nes.PpuMemory.nmt[mirroring1][(addr & 0x03FF)];
-                case 2: return Nes.PpuMemory.nmt[mirroring2][(addr & 0x03FF)];
-                case 3: return Nes.PpuMemory.nmt[mirroring2][(addr & 0x03FF)];
-                default: return 0;// make compiler happy !
-            }
-        }
-        public void PokeNmt(int addr, byte data)
-        {
-            switch ((addr >> 10) & 0x03)
-            {
-                case 0: Nes.PpuMemory.nmt[mirroring1][(addr & 0x03FF)] = data; break;
-                case 1: Nes.PpuMemory.nmt[mirroring1][(addr & 0x03FF)] = data; break;
-                case 2: Nes.PpuMemory.nmt[mirroring2][(addr & 0x03FF)] = data; break;
-                case 3: Nes.PpuMemory.nmt[mirroring2][(addr & 0x03FF)] = data; break;
             }
         }
 

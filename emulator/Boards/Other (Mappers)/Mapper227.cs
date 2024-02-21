@@ -46,7 +46,6 @@ namespace MyNes.Core.Boards.Other__Mappers_
         }
         protected override void PokePrg(int address, byte data)
         {
-            Nes.PpuMemory.SwitchMirroring((address & 0x2) == 0x2 ? Mirroring.ModeHorz : Mirroring.ModeVert);
             chrRAMprotect = (address & 0x80) == 0x80;
             /*
 $8000-FFFF:  A~[.... ..LP  OPPP PPMS]

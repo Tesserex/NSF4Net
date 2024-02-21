@@ -54,15 +54,6 @@ namespace MyNes.Core.Boards.Other__Mappers_
                         case 4: chrReg = (chrReg & 0xE) | (data & 0x1); Switch08kCHR(chrReg); break;
                         case 5: Switch32KPRG(data & 0x7); break;
                         case 6: chrReg = (chrReg & 0x9) | ((data << 1) & 0x6); Switch08kCHR(chrReg); break;
-                        case 7:
-                            switch (data >> 1 & 3)
-                            {
-                                case 0: Nes.PpuMemory.SwitchMirroring(Mirroring.ModeHorz); break;
-                                case 1: Nes.PpuMemory.SwitchMirroring(Mirroring.ModeVert); break;
-                                case 2: Nes.PpuMemory.SwitchMirroring(0x7); break;
-                                case 3: Nes.PpuMemory.SwitchMirroring(Mirroring.Mode1ScB); break;
-                            }
-                            break;
                     }
                     break;
             }

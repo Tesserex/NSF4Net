@@ -45,7 +45,6 @@ namespace MyNes.Core.Boards.Konami
                 case 0x9000: 
                     chrRegs[0] = (chrRegs[0] & 0x0F) | ((data & 0x2) << 3);
                     chrRegs[1] = (chrRegs[1] & 0x0F) | ((data & 0x4) << 2);
-                    Nes.PpuMemory.SwitchMirroring((data & 1) == 1 ? Mirroring.ModeHorz : Mirroring.ModeVert);
                     SetupCHR();
                     break;
                 case 0xE000: chrRegs[0] = (chrRegs[0] & 0x10) | (data & 0xF); SetupCHR(); break;
