@@ -34,23 +34,6 @@ namespace MyNes.Core.Boards.Discreet
             Nes.CpuMemory.Hook(0x7FFD, PokePrg);
             Nes.CpuMemory.Hook(0x7FFE, PokePrg);
             Nes.CpuMemory.Hook(0x7FFF, PokePrg);
-            //let's see if this game is NINA 101 or BxROM
-            //The only way to do this is to use sha1
-            /* Note from 034.txt, mapper docs
-             * "How these two seperate and completely imcompatible mappers got assigned the same mapper number is a mystery.
-             * BxROM and NINA-001 are both assigned mapper 034, however they both work totally differently.  There is no
-             * reliable way to tell the difference between the two apart from a CRC or Hash check."
-             */
-            if (Nes.RomInfo.SHA1.ToUpper() == "68315AFB344108CB0D43E119BA0353D5A44BD489")
-            {
-                //Impossible Mission 2   (NINA-001)
-                IsNINA = true;
-            }
-            else
-            {
-                //BxROM
-                IsNINA = false;
-            }
         }
         protected override void PokePrg(int address, byte data)
         {

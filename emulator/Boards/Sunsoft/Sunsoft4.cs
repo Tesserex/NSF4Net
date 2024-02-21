@@ -57,20 +57,5 @@ namespace MyNes.Core.Boards.Sunsoft
                 case 0xF000: Switch16KPRG(data, 0x8000); break;
             }
         }
-
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(ntMode);
-            stream.Write(ntAbank);
-            stream.Write(ntBbank);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            ntMode = stream.ReadBoolean();
-            ntAbank = stream.ReadInt32();
-            ntBbank = stream.ReadInt32();
-        }
     }
 }

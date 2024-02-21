@@ -72,20 +72,5 @@ namespace MyNes.Core.Boards.Discreet
 
             sramBank = (offset | (bank << 2)) << 13;
         }
-
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(bank);
-            stream.Write(mode); 
-            stream.Write(sramBank);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            bank = stream.ReadInt32();
-            mode = stream.ReadInt32();
-            sramBank = stream.ReadInt32();
-        }
     }
 }

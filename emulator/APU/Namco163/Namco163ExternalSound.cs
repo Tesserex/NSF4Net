@@ -173,25 +173,5 @@ namespace MyNes.Core.APU.Namco163
         {
             channels[7 - (channelIndex = ((channelIndex + 1) & enabledChannels))].Update(cycles);
         }
-
-        public void SaveState(Types.StateStream stream)
-        {
-            for (int i = 0; i < 8; i++)
-                channels[i].SaveState(stream);
-            stream.Write(EXRAM);
-            stream.Write(sndReg);
-            stream.Write(enabledChannels);
-            stream.Write(channelIndex);
-        }
-
-        public void LoadState(Types.StateStream stream)
-        {
-            for (int i = 0; i < 8; i++)
-                channels[i].LoadState(stream);
-            stream.Read(EXRAM);
-            sndReg = stream.ReadByte();
-            enabledChannels = stream.ReadInt32();
-            channelIndex = stream.ReadInt32();
-        }
     }
 }

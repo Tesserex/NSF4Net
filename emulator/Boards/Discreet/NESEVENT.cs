@@ -162,23 +162,5 @@ namespace MyNes.Core.Boards.Discreet
                 }
             }
         }
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(reg);
-            stream.Write(sram);
-            stream.Write(shift);
-            stream.Write(buffer);
-            stream.Write(wramON);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            stream.Read(reg);
-            stream.Read(sram);
-            shift = stream.ReadByte();
-            buffer = stream.ReadByte();
-            wramON = stream.ReadBoolean();
-        }
     }
 }

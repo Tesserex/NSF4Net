@@ -44,15 +44,5 @@ namespace MyNes.Core.Boards.Discreet
         {
             lockchr = ((data & 0xF) == 0) || (data == 0x13);
         }
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(lockchr);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            lockchr = stream.ReadBoolean();
-        }
     }
 }

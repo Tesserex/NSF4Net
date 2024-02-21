@@ -70,18 +70,5 @@ namespace MyNes.Core.Boards.FFE
                 }
             }
         }
-
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(IRQEnabled);
-            stream.Write(irq_counter);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            IRQEnabled = stream.ReadBoolean();
-            irq_counter = stream.ReadInt32();
-        }
     }
 }

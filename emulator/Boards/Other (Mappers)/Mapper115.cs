@@ -97,20 +97,5 @@ namespace MyNes.Core.Boards.Nintendo
                 base.Switch01kCHR(chrRegs[5] | chrOR, 0x0C00);
             }
         }
-
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(PRGMode);
-            stream.Write(PrgPageOf6000);
-            stream.Write(chrOR);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            PRGMode = stream.ReadBoolean();
-            PrgPageOf6000 = stream.ReadInt32();
-            chrOR = stream.ReadInt32();
-        }
     }
 }

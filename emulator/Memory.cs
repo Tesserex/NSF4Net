@@ -81,7 +81,5 @@ namespace MyNes.Core
         public virtual void Shutdown() { }
         public virtual void HardReset() { }
         public virtual void SoftReset() { }
-        public virtual void SaveState(StateStream stream) { }
-        public virtual void LoadState(StateStream stream) { }
     }
 }

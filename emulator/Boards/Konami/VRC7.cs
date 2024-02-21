@@ -118,25 +118,5 @@ namespace MyNes.Core.Boards.Konami
                 }
             }
         }
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(irqReload);
-            stream.Write(irqCounter);
-            stream.Write(irqPrescaler);
-            stream.Write(irqEnable);
-            stream.Write(irqMode);
-            stream.Write(irqEnableOnAcknowledge);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            irqReload = stream.ReadByte();
-            irqCounter = stream.ReadByte();
-            irqPrescaler = stream.ReadInt32();
-            irqEnable = stream.ReadBoolean();
-            irqMode = stream.ReadBoolean();
-            irqEnableOnAcknowledge = stream.ReadBoolean();
-        }
     }
 }

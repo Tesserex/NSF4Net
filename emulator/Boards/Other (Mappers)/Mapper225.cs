@@ -60,16 +60,5 @@ namespace MyNes.Core.Boards.Other__Mappers_
                 Switch32KPRG(address >> 7 & 0x1F);
             }
         }
-
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(ram);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            stream.Read(ram);
-        }
     }
 }

@@ -134,30 +134,5 @@ namespace MyNes.Core.APU
             SweepNegateFlag = false;
             base.HardReset();
         }
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(dutyForm);
-            stream.Write(dutyStep);
-            stream.Write(SweepDeviderPeriod);
-            stream.Write(SweepShiftCount);
-            stream.Write(SweepCounter);
-            stream.Write(output);
-            stream.Write(SweepEnable, SweepReload, SweepNegateFlag);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            dutyForm = stream.ReadInt32();
-            dutyStep = stream.ReadInt32();
-            SweepDeviderPeriod = stream.ReadInt32();
-            SweepShiftCount = stream.ReadInt32();
-            SweepCounter = stream.ReadInt32();
-            output = stream.ReadByte();
-            bool[] flags = stream.ReadBooleans();
-            SweepEnable = flags[0];
-            SweepReload = flags[1];
-            SweepNegateFlag = flags[2];
-        }
     }
 }

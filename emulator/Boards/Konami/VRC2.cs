@@ -73,16 +73,5 @@ namespace MyNes.Core.Boards.Konami
                 case 0xE003: chrRegs[7] = (byte)((chrRegs[7] & 0x0F) | (data & 0x0F) << 4); Switch01kCHR(chrRegs[7] >> 1, 0x1C00); break;
             }
         }
-
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(chrRegs);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            stream.Read(chrRegs);
-        }
     }
 }

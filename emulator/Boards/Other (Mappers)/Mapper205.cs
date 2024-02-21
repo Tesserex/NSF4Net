@@ -90,22 +90,5 @@ namespace MyNes.Core.Boards.Other__Mappers_
                 base.Switch01kCHR((chrRegs[5] & chrAND) | chrOR, 0x0C00);
             }
         }
-
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(chrAND);
-            stream.Write(chrOR);
-            stream.Write(prgAND);
-            stream.Write(prgOR);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            chrAND = stream.ReadInt32();
-            chrOR = stream.ReadInt32();
-            prgAND = stream.ReadInt32();
-            prgOR = stream.ReadInt32();
-        }
     }
 }

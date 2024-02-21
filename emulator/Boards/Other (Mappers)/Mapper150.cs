@@ -96,18 +96,5 @@ namespace MyNes.Core.Boards.Discreet
                 Switch08kCHR(banks[1]);
             }
         }
-
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(command);
-            stream.Write(dip);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            command = stream.ReadInt32();
-            dip = stream.ReadInt32();
-        }
     }
 }

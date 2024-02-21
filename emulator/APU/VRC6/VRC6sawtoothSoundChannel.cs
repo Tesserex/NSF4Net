@@ -85,23 +85,5 @@ namespace MyNes.Core.APU.VRC6
 
             output = (byte)((accum >> 3) & 0x1F);
         }
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(enabled);
-            stream.Write(accum);
-            stream.Write(accumRate);
-            stream.Write(accumStep);
-            stream.Write(output);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            enabled = stream.ReadBoolean() ;
-            accum = stream.ReadInt32();
-            accumRate = stream.ReadInt32();
-            accumStep = stream.ReadInt32();
-            output = stream.ReadByte();
-        }
     }
 }

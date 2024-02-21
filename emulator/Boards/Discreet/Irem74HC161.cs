@@ -26,20 +26,6 @@ namespace MyNes.Core.Boards.Discreet
         public Irem74HC161() : base() { }
         public Irem74HC161(byte[] chr, byte[] prg, byte[] trainer, bool isVram) : base(chr, prg, trainer, isVram) { }
 
-        private bool mode = false;
-        public override void Initialize()
-        {
-            base.Initialize();
-            /* from 078.txt doc:
-             * "This mapper number covers two seperate mappers which are *almost* identical... however the mirroring control
-             * on each is different (making them incompatible).  You'll probably have to do a CRC or Hash check to figure
-             * out which mirroring setup to use."
-             */
-            if (Nes.RomInfo.SHA1.ToUpper() == "BC6F5A884FD31FE6B4439E83AD6C2A29D038E545")//Holy Diver
-            {
-                mode = true;
-            }
-        }
         public override void HardReset()
         {
             base.HardReset();

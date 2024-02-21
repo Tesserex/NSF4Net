@@ -60,17 +60,5 @@ namespace MyNes.Core.Boards.Other__Mappers_
                 case 0x8001: prgReg = (prgReg & 0x7F) | ((data & 1) << 7); SetupPRG(); break;
             }
         }
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(prgReg);
-            stream.Write(prgMode);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            prgReg = stream.ReadInt32();
-            prgMode = stream.ReadBoolean();
-        }
     }
 }

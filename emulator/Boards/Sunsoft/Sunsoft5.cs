@@ -144,29 +144,5 @@ namespace MyNes.Core.Boards.Sunsoft
                 }
             }
         }
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(addressOf8000);
-            stream.Write(RamEnabled);
-            stream.Write(sramAddress);
-            stream.Write(ramRomSelect);
-
-            stream.Write(irqCounter);
-            stream.Write(irqEnableCountdown);
-            stream.Write(irqEnableTriggiring);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            addressOf8000 = stream.ReadInt32();
-            RamEnabled = stream.ReadBoolean();
-            sramAddress = stream.ReadInt32();
-            ramRomSelect = stream.ReadBoolean();
-
-            irqCounter = stream.ReadInt32();
-            irqEnableCountdown = stream.ReadBoolean();
-            irqEnableTriggiring = stream.ReadBoolean();
-        }
     }
 }

@@ -198,49 +198,5 @@ namespace MyNes.Core.Boards.Discreet
                 }
             }
         }
-
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(addressOf8000);
-            stream.Write(chrMode);
-            stream.Write(chrModeFull1k);
-            stream.Write(prgMode);
-            stream.Write(chrRegs);
-            stream.Write(prgRegs);
-
-            stream.Write(irqReload);
-            stream.Write(IrqMode);
-            stream.Write(irqPrescaler);
-            stream.Write(irqCounter);
-            stream.Write(irqEnable);
-            stream.Write(irqClear);
-
-            stream.Write(oldA12);
-            stream.Write(newA12);
-            stream.Write(timer);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-
-            addressOf8000 = stream.ReadByte();
-            chrMode = stream.ReadBoolean();
-            chrModeFull1k = stream.ReadBoolean();
-            prgMode = stream.ReadBoolean();
-            stream.Read(chrRegs);
-            stream.Read(prgRegs);
-
-            irqReload = stream.ReadByte();
-            IrqMode = stream.ReadBoolean();
-            irqPrescaler = stream.ReadInt32();
-            irqCounter = stream.ReadByte();
-            irqEnable = stream.ReadBoolean();
-            irqClear = stream.ReadBoolean();
-
-            oldA12 = stream.ReadInt32();
-            newA12 = stream.ReadInt32();
-            timer = stream.ReadInt32();
-        }
     }
 }

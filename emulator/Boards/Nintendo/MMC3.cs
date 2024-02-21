@@ -18,7 +18,6 @@
  */
 /*Written by Ala Ibrahim Hadid*/
 using MyNes.Core.Types;
-using MyNes.Core.Debug;
 namespace MyNes.Core.Boards.Nintendo
 {
     [BoardName("MMC3", 4)]
@@ -74,16 +73,6 @@ namespace MyNes.Core.Boards.Nintendo
             oldA12 = 0;
             newA12 = 0;
             timer = 0;
-
-            if (Nes.RomInfo.DatabaseGameInfo.Game_Name != null)
-            {
-                switch (Nes.RomInfo.DatabaseGameInfo.chip_type[0].ToLower())
-                {
-                    case "mmc3a": mmc3_alt_behavior = true; Console.WriteLine("Chip= MMC3 A, MMC3 IQR mode switched to RevA"); break;
-                    case "mmc3b": mmc3_alt_behavior = false; Console.WriteLine("Chip= MMC3 B, MMC3 IQR mode switched to RevB"); break;
-                    case "mmc3c": mmc3_alt_behavior = false; Console.WriteLine("Chip= MMC3 C, MMC3 IQR mode switched to RevB"); break;
-                }
-            }
         }
 
         protected override void PokePrg(int address, byte data)
@@ -221,93 +210,6 @@ namespace MyNes.Core.Boards.Nintendo
                 }
 
                 timer = 0;
-            }
-        }
-
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(addrSelect);
-            stream.Write(chrRegs);
-            stream.Write(prgRegs);
-            stream.Write(sram);
-            stream.Write(irqReload);
-            stream.Write(irqCounter);
-            stream.Write(oldA12);
-            stream.Write(newA12);
-            stream.Write(timer);
-            stream.Write(chrmode, prgmode, wramON, wramReadOnly, IrqEnable, clear);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            addrSelect = stream.ReadInt32();
-            stream.Read(chrRegs);
-            stream.Read(prgRegs);
-            stream.Read(sram);
-            irqReload = stream.ReadByte();
-            irqCounter = stream.ReadByte();
-            oldA12 = stream.ReadInt32();
-            newA12 = stream.ReadInt32();
-            timer = stream.ReadInt32();
-            bool[] flags = stream.ReadBooleans();
-            chrmode = flags[0];
-            prgmode = flags[1];
-            wramON = flags[2];
-            wramReadOnly = flags[3];
-            IrqEnable = flags[4];
-            clear = flags[5];
-        }
-    }
-    class MMC3ConsoleCommands : ConsoleCommand
-    {
-        public override string Method
-        {
-            get { return "mmc3"; }
-        }
-        public override string Description
-        {
-            get { return "Call MMC3 board commands, use parameters for options"; }
-        }
-        public override ConsoleCommandParameter[] Parameters
-        {
-            get
-            {
-                return new ConsoleCommandParameter[]
-                {
-                new ConsoleCommandParameter("reva","Set MMC3 IQR mode to RevA"),
-                new ConsoleCommandParameter("revb","Set MMC3 IQR mode to RevB"),
-                };
-            }
-        }
-        public override void Execute(string parameters)
-        {
-            if (!Nes.ON)
-            {
-                Console.WriteLine("The emulation is off, you can't access the board.", DebugCode.Error);
-                return;
-            }
-            if (!Nes.Board.Name.Contains("MMC3"))
-            {
-                Console.WriteLine("The current loaded board is not MMC3 !", DebugCode.Error);
-                return;
-            }
-            if (parameters.Length > 0)
-            {
-                string[] codes = parameters.Split(new char[] { ' ' });
-                for (int i = 0; i < codes.Length; i++)
-                {
-                    if (codes[i] == "reva")
-                    {
-                        ((MMC3)Nes.Board).mmc3_alt_behavior = true;
-                        Console.WriteLine("MMC3 IQR mode switched to RevA");
-                    }
-                    if (codes[i] == "revb")
-                    {
-                        ((MMC3)Nes.Board).mmc3_alt_behavior = false;
-                        Console.WriteLine("MMC3 IQR mode switched to RevB");
-                    }
-                }
             }
         }
     }

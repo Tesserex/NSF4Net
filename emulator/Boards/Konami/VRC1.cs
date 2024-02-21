@@ -56,15 +56,5 @@ namespace MyNes.Core.Boards.Konami
             Switch04kCHR(chrRegs[0], 0x0000); 
             Switch04kCHR(chrRegs[1], 0x1000);
         }
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(chrRegs);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            stream.Read(chrRegs);
-        }
     }
 }

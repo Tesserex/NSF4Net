@@ -51,15 +51,5 @@ namespace MyNes.Core.CPU
             ram[0x000A] = 0xDF;
             ram[0x000F] = 0xBF;
         }
-        public override void SaveState(Core.Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(ram);
-        }
-        public override void LoadState(Core.Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            stream.Read(ram);
-        }
     }
 }

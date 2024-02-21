@@ -46,16 +46,5 @@ namespace MyNes.Core.Boards.Discreet
             Switch32KPRG(data & 0x3);
             chrBlockSelect = (data & 0x4) == 0x4;
         }
-
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(chrBlockSelect);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            chrBlockSelect = stream.ReadBoolean();
-        }
     }
 }

@@ -35,7 +35,6 @@ namespace MyNes.Core.Boards.FFE
         {
             base.Initialize();
             Nes.CpuMemory.Hook(0x4020, 0x5FFF, PokePrg);
-            Console.WriteLine("Mapper 23 not implement well due to uncomplete information", DebugCode.Warning);
         }
         public override void HardReset()
         {
@@ -79,19 +78,6 @@ namespace MyNes.Core.Boards.FFE
                 base.Switch01kCHR(chrRegs[4] + vb0, 0x0800);
                 base.Switch01kCHR(chrRegs[5] + vb0, 0x0C00);
             }
-        }
-
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(vb0); 
-            stream.Write(vb1);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            vb0 = stream.ReadInt32();
-            vb1 = stream.ReadInt32();
         }
     }
 }

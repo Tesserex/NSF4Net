@@ -30,19 +30,6 @@ namespace MyNes.Core
         public int period;
         public int single;
 
-        public void SaveState(StateStream stream)
-        {
-            stream.Write(cycles);
-            stream.Write(period);
-            stream.Write(single);
-        }
-        public void LoadState(StateStream stream)
-        {
-            cycles = stream.ReadInt32();
-            period = stream.ReadInt32();
-            single = stream.ReadInt32();
-        }
-
         public struct System
         {
             public string Name;

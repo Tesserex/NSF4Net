@@ -100,19 +100,5 @@ namespace MyNes.Core.CPU
                 }
             }
         }
-        public virtual void SaveState(StateStream stream)
-        {
-            stream.Write(step);
-            stream.Write(data);
-            stream.Write(addr);
-            stream.Write(size);
-        }
-        public virtual void LoadState(StateStream stream)
-        {
-            step = stream.ReadBooleans()[0];
-            data = stream.ReadByte();
-            addr = stream.ReadInt32();
-            size = stream.ReadInt32();
-        }
     }
 }

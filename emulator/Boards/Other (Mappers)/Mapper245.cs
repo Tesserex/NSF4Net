@@ -78,16 +78,5 @@ namespace MyNes.Core.Boards.Other__Mappers_
                 base.Switch08KPRG((prgRegs[3] & 0x3F) | or, 0xE000);
             }
         }
-
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(prgMode2);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            prgMode2 = stream.ReadBoolean();
-        }
     }
 }

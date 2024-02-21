@@ -53,15 +53,5 @@ namespace MyNes.Core.Boards.Other__Mappers_
             else
                 Switch32KPRG(title >> 1 | bank >> 1);
         }
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(title);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            title = stream.ReadInt32();
-        }
     }
 }

@@ -67,16 +67,5 @@ namespace MyNes.Core.Boards.Discreet
             Switch16KPRG(banks[0], 0x8000);
             Switch16KPRG(banks[1], 0xC000);
         }
-
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(regs);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            stream.Read(regs);
-        }
     }
 }

@@ -109,25 +109,5 @@ namespace MyNes.Core.APU
             HALT = false;
             base.HardReset();
         }
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(linearCounter);
-            stream.Write(LinearCounterReload);
-            stream.Write(output);
-            stream.Write(Step);
-            stream.Write(LinearCounterHalt, HALT);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            linearCounter = stream.ReadByte();
-            LinearCounterReload = stream.ReadByte();
-            output = stream.ReadByte();
-            Step = stream.ReadByte();
-            bool[] flags = stream.ReadBooleans();
-            LinearCounterHalt = flags[0];
-            HALT = flags[0];
-        }
     }
 }

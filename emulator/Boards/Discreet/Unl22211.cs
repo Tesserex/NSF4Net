@@ -57,15 +57,5 @@ namespace MyNes.Core.Boards.Discreet
             Switch32KPRG(regs[2] >> 2);
             Switch08kCHR((type == 0) ? ((data ^ regs[2]) >> 3 & 0x2) | ((data ^ regs[2]) >> 5 & 0x1) : regs[2]);
         }
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(regs);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            stream.Read(regs);
-        }
     }
 }

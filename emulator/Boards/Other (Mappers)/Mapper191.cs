@@ -68,15 +68,5 @@ namespace MyNes.Core.Boards.Other__Mappers_
                 base.Switch01kCHR((chrRegs[5] & 0x80) == 0x80 ? chrRegs[5] : (chr.Length >> 10), 0x0C00);
             }
         }
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(chrRam);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream); 
-            stream.Read(chrRam);
-        }
     }
 }

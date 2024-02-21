@@ -85,19 +85,5 @@ namespace MyNes.Core.Boards.Nintendo
             CHRlatch(address);
             return value;
         }
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(latch_a);
-            stream.Write(latch_b);
-            stream.Write(reg);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            latch_a = stream.ReadByte();
-            latch_b = stream.ReadByte();
-            stream.Read(reg);
-        }
     }
 }

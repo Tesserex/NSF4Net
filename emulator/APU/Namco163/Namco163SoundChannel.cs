@@ -115,30 +115,5 @@ namespace MyNes.Core.APU.Namco163
             }
             return 0;
         }
-
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(Enabled); 
-            stream.Write(LengthOfWaveform);
-            stream.Write(AddressOfWaveform);
-            stream.Write(LinearVolume);
-            stream.Write(Step);
-            stream.Write(wavBuffer);
-            stream.Write(output);
-            stream.Write(Freez);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            Enabled = stream.ReadBoolean();
-            LengthOfWaveform = stream.ReadInt32();
-            AddressOfWaveform = stream.ReadInt32();
-            LinearVolume = stream.ReadInt32();
-            Step = stream.ReadInt32();
-            stream.Read(wavBuffer);
-            output = stream.ReadByte();
-            Freez = stream.ReadBoolean();
-        }
     }
 }

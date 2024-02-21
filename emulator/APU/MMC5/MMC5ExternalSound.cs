@@ -84,19 +84,5 @@ namespace MyNes.Core.APU.MMC5
             soundChn2.Update(cycles);
             soundChn3.Update(cycles);
         }
-
-        public void SaveState(Types.StateStream stream)
-        {
-            soundChn1.SaveState(stream);
-            soundChn2.SaveState(stream);
-            soundChn3.SaveState(stream);
-        }
-
-        public void LoadState(Types.StateStream stream)
-        {
-            soundChn1.LoadState(stream);
-            soundChn2.LoadState(stream);
-            soundChn3.LoadState(stream);
-        }
     }
 }

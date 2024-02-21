@@ -65,17 +65,5 @@ namespace MyNes.Core.APU.Sunsoft5B
             output = 0;
             dutyStep = 0;
         }
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(Disable); stream.Write(output); stream.Write(dutyStep);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            Disable = stream.ReadBoolean();
-            output = stream.ReadByte();
-            dutyStep = stream.ReadInt32();
-        }
     }
 }

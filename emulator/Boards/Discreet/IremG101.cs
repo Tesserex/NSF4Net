@@ -29,17 +29,6 @@ namespace MyNes.Core.Boards.Discreet
         protected byte[] prgRegs = new byte[2];
         private bool enableMirroringSwitch = true;
 
-        public override void Initialize()
-        {
-            base.Initialize();
-            //Major League special case, wants hardwired 1-screen mirroring
-            if (Nes.RomInfo.SHA1.ToUpper() == "7E4180432726A433C46BA2206D9E13B32761C11E")
-            {
-                enableMirroringSwitch = false;
-            }
-            else
-                enableMirroringSwitch = true;
-        }
         public override void HardReset()
         {
             // Switch 32KB prg bank at 0x8000
@@ -107,21 +96,6 @@ namespace MyNes.Core.Boards.Discreet
                 base.Switch08KPRG(prgRegs[0], 0xC000);
                 base.Switch08KPRG((prg.Length - 0x2000) >> 13, 0xE000);
             }
-        }
-
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(prgmode, enableMirroringSwitch);
-            stream.Write(prgRegs);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            bool[] flags = stream.ReadBooleans();
-            prgmode = flags[0];
-            enableMirroringSwitch = flags[1];
-            stream.Read(prgRegs);
         }
     }
 }

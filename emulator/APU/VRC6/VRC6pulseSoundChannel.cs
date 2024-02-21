@@ -87,24 +87,5 @@ namespace MyNes.Core.APU.VRC6
                 return output;
             return 0;
         }
-
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(dutyForm);
-            stream.Write(dutyStep);
-            stream.Write(enabled);
-            stream.Write(mode);
-            stream.Write(output);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            dutyForm = stream.ReadInt32();
-            dutyStep = stream.ReadInt32();
-            enabled = stream.ReadBoolean();
-            mode = stream.ReadBoolean();
-            output = stream.ReadByte();
-        }
     }
 }

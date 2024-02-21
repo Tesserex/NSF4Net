@@ -58,18 +58,5 @@ namespace MyNes.Core.Boards.Other__Mappers_
                     break;
             }
         }
-
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(index);
-            stream.Write(chrReg);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            index = stream.ReadInt32();
-            chrReg = stream.ReadInt32();
-        }
     }
 }

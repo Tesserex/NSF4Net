@@ -81,19 +81,5 @@ namespace MyNes.Core.Boards.Sunsoft
                 }
             }
         }
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(irqWriteFlipFlop);
-            stream.Write(irqCounter);
-            stream.Write(irqEnabled);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            irqWriteFlipFlop = stream.ReadBoolean();
-            irqCounter = stream.ReadInt32();
-            irqEnabled = stream.ReadBoolean();
-        }
     }
 }

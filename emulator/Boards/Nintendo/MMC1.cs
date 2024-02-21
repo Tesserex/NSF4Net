@@ -35,38 +35,6 @@ namespace MyNes.Core.Boards.Nintendo
             Nes.Cpu.ClockCycle = ClockCpu;
             timer = 0;
             boardType = MMC1BoardType.Normal;
-            // let's checkout the rom info to see if this rom has info in data base
-            if (Nes.RomInfo.DatabaseGameInfo.Game_Name != "" && Nes.RomInfo.DatabaseGameInfo.Board_Type != null)
-            {
-                if (Nes.RomInfo.DatabaseGameInfo.Board_Type.ToLower().Contains("surom"))
-                {
-                    boardType = MMC1BoardType.SUROM;
-                    Console.WriteLine("Board Type: SUROM", DebugCode.Warning);
-                }
-                if (Nes.RomInfo.DatabaseGameInfo.Board_Type.ToLower().Contains("sorom"))
-                {
-                    boardType = MMC1BoardType.SOROM;
-                    sram = new byte[1024 * 16];
-                    Console.WriteLine("Board Type: SOROM", DebugCode.Warning);
-                }
-                if (Nes.RomInfo.DatabaseGameInfo.Board_Type.ToLower().Contains("sxrom"))
-                {
-                    boardType = MMC1BoardType.SXROM;
-                    sram = new byte[1024 * 32];
-                    Console.WriteLine("Board Type: SXROM", DebugCode.Warning);
-                }
-            }
-            else if (Nes.RomInfo.SHA1.ToUpper() == "340F507CFC3F3827EE0B7269814E08D634B807F4")// Best Play Pro Yakyuu Special?
-            {
-                boardType = MMC1BoardType.SXROM;
-                sram = new byte[1024 * 32];
-                Console.WriteLine("Board Type: SXROM", DebugCode.Warning);
-            }
-            else// then to normal switch depending on size
-            {
-                if (Nes.RomInfo.PRGcount >= 32)
-                { boardType = MMC1BoardType.SUROM; Console.WriteLine("Board Type: SUROM", DebugCode.Warning); }
-            }
         }
         public override void HardReset()
         {
@@ -349,24 +317,6 @@ namespace MyNes.Core.Boards.Nintendo
         private void ClockCpu()
         {
             timer++;
-        }
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(reg);
-            stream.Write(sram);
-            stream.Write(shift);
-            stream.Write(buffer);
-            stream.Write(wramON);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            stream.Read(reg);
-            stream.Read(sram);
-            shift = stream.ReadByte();
-            buffer = stream.ReadByte();
-            wramON = stream.ReadBoolean();
         }
 
         private enum MMC1BoardType

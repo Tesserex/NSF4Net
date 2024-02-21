@@ -55,18 +55,5 @@ namespace MyNes.Core.Boards.Other__Mappers_
                 case 0x7EFF: Switch08KPRG(data, 0xC000); break;
             }
         }
-
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(mirroring1);
-            stream.Write(mirroring2);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            mirroring1 = stream.ReadInt32();
-            mirroring2 = stream.ReadInt32();
-        }
     }
 }

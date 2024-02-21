@@ -369,47 +369,5 @@ namespace MyNes.Core.APU
                 noi.GetSample(),
                 dmc.GetSample());
         }
-
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            sq1.SaveState(stream);
-            sq2.SaveState(stream);
-            tri.SaveState(stream);
-            noi.SaveState(stream);
-            dmc.SaveState(stream);
-
-            if (EXenabled)
-            {
-                externalMixer.SaveState(stream);
-            }
-
-            stream.Write(Cycles);
-            stream.Write(CurrentSeq);
-            stream.Write(SequencingMode, oddCycle, isClockingDuration, FrameIrqEnabled, FrameIrqFlag);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            sq1.LoadState(stream);
-            sq2.LoadState(stream);
-            tri.LoadState(stream);
-            noi.LoadState(stream);
-            dmc.LoadState(stream);
-
-            if (EXenabled)
-            {
-                externalMixer.LoadState(stream);
-            }
-
-            Cycles = stream.ReadInt32();
-            CurrentSeq = stream.ReadByte();
-            bool[] flags = stream.ReadBooleans();
-            SequencingMode = flags[0];
-            oddCycle = flags[1];
-            isClockingDuration = flags[2];
-            FrameIrqEnabled = flags[3];
-            FrameIrqFlag = flags[4];
-        }
     }
 }

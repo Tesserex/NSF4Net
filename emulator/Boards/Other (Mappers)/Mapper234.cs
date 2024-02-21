@@ -71,15 +71,5 @@ namespace MyNes.Core.Boards.Other__Mappers_
             PokeFF80(address, data);
             return data;
         }
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(regs);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream); 
-            stream.Read(regs);
-        }
     }
 }

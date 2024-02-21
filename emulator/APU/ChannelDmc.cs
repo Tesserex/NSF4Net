@@ -206,37 +206,5 @@ namespace MyNes.Core.APU
             dmaBuffer = 0;
             base.HardReset();
         }
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(DeltaIrqOccur, IrqEnabled, dmaLooping, dmaEnabled, bufferFull);
-            stream.Write(output);
-            stream.Write(dmaAddrRefresh);
-            stream.Write(dmaSizeRefresh);
-            stream.Write(dmaSize);
-            stream.Write(dmaBits);
-            stream.Write(dmaByte);
-            stream.Write(dmaAddr);
-            stream.Write(dmaBuffer);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            bool[] flags = stream.ReadBooleans();
-            DeltaIrqOccur = flags[0];
-            IrqEnabled = flags[1];
-            dmaLooping = flags[2];
-            dmaEnabled = flags[3];
-            bufferFull = flags[4];
-
-            output = stream.ReadByte();
-            dmaAddrRefresh = stream.ReadInt32();
-            dmaSizeRefresh = stream.ReadInt32();
-            dmaSize = stream.ReadInt32();
-            dmaBits = stream.ReadInt32();
-            dmaByte = stream.ReadByte();
-            dmaAddr = stream.ReadInt32();
-            dmaBuffer = stream.ReadByte();
-        }
     }
 }

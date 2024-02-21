@@ -20,7 +20,6 @@ using System;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Reflection;
-using MyNes.Core.ROM;
 
 namespace MyNes.Core.Boards
 {
@@ -47,14 +46,14 @@ namespace MyNes.Core.Boards
             availableBoards.Sort(new BoardSorter(true, false));
             boards = availableBoards.ToArray();
         }
-        public static Board GetBoard(INESHeader header, byte[] chr, byte[] prg, byte[] trainer)
+        public static Board? GetBoard(byte mapper, byte[] chr, byte[] prg, byte[] trainer)
         {
             foreach (Board board in boards)
             {
-                if (board.INESMapperNumber == header.Mapper)
+                if (board.INESMapperNumber == mapper)
                 {
                     Type boardType = board.GetType();
-                    return ((Board)Activator.CreateInstance(boardType, new object[] { chr, prg, trainer, header.IsVram }));
+                    return (Board)Activator.CreateInstance(boardType, new object[] { chr, prg, trainer, false });
                 }
             }
             return null;

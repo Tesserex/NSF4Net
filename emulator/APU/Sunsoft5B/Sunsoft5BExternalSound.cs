@@ -70,19 +70,5 @@ namespace MyNes.Core.APU.Sunsoft5B
             sndChannel1.Update(cycles);
             sndChannel2.Update(cycles);
         }
-
-        public void SaveState(Types.StateStream stream)
-        {
-            sndChannel0.SaveState(stream);
-            sndChannel1.SaveState(stream);
-            sndChannel2.SaveState(stream);
-        }
-
-        public void LoadState(Types.StateStream stream)
-        {
-            sndChannel0.LoadState(stream);
-            sndChannel1.LoadState(stream);
-            sndChannel2.LoadState(stream);
-        }
     }
 }

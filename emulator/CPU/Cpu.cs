@@ -955,8 +955,6 @@ namespace MyNes.Core.CPU
 
         public override void Initialize()
         {
-            Console.WriteLine("Initializing CPU...");
-
             modes = new Action[256]
             {
                 // 0     1        2        3        4        5        6        7        8         9        A         B        C         D        E        F
@@ -1001,8 +999,6 @@ namespace MyNes.Core.CPU
             HardReset();
 
             Nes.CpuMemory.Hook(0x4014, dma.OamTransfer);
-
-            Console.WriteLine("CPU initialized!", DebugCode.Good);
         }
         public override void Shutdown() { }
         public override void SoftReset()
@@ -1069,43 +1065,6 @@ namespace MyNes.Core.CPU
         }
         private void Clock() { }
 
-        public override void SaveState(Core.Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            dma.SaveState(stream);
-            stream.Write((byte)sr);
-            stream.Write(pc.Value);
-            stream.Write(sp.Value);
-            stream.Write(a);
-            stream.Write(x);
-            stream.Write(y);
-            stream.Write(aa.Value);
-            stream.Write(dummyVal);
-            stream.Write(nmi, locked, dointerrupt);
-            stream.Write(DMCdmaCycles);
-            stream.Write(code);
-            stream.Write(irqRequestFlags);
-        }
-        public override void LoadState(Core.Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            dma.LoadState(stream);
-            sr = stream.ReadByte();
-            pc.Value = stream.ReadUshort();
-            sp.Value = stream.ReadUshort();
-            a = stream.ReadByte();
-            x = stream.ReadByte();
-            y = stream.ReadByte();
-            aa.Value = stream.ReadUshort();
-            dummyVal = stream.ReadByte();
-            bool[] flags = stream.ReadBooleans();
-            nmi = flags[0];
-            locked = flags[1];
-            dointerrupt = flags[2];
-            DMCdmaCycles = stream.ReadByte();
-            code = stream.ReadByte();
-            irqRequestFlags = stream.ReadInt32();
-        }
         public enum IsrType
         {
             /// <summary>

@@ -52,15 +52,5 @@ namespace MyNes.Core.Boards.Discreet
                     break;
             }
         }
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(index);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            index = stream.ReadInt32();
-        }
     }
 }

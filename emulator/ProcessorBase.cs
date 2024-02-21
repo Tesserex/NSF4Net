@@ -46,7 +46,5 @@ namespace MyNes.Core
 
             timing.cycles -= cycles;
         }
-        public virtual void SaveState(StateStream stream) { timing.SaveState(stream); }
-        public virtual void LoadState(StateStream stream) { timing.LoadState(stream); }
     }
 }

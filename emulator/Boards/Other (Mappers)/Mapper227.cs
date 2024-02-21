@@ -115,16 +115,5 @@ O=0, S=1, L=1:  |   P AND $3E   |   P  OR $07   |
                 }
             }
         }
-
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(chrRAMprotect);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            chrRAMprotect = stream.ReadBoolean();
-        }
     }
 }

@@ -159,23 +159,5 @@ namespace MyNes.Core.Boards.Discreet
                 //    irqCounter++;
             }
         }
-
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(irqCounter);
-            stream.Write(irqEnabled, chrH, chrL);
-            stream.Write(CRAM);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            irqCounter = stream.ReadUshort();
-            bool[] flags = stream.ReadBooleans();
-            irqEnabled = flags[0];
-            chrH = flags[0];
-            chrL = flags[0];
-            stream.Read(CRAM);
-        }
     }
 }

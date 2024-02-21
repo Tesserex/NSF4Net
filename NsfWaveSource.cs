@@ -146,7 +146,7 @@ namespace NSFAudio
         void nsf_setupsong(NSF nsf)
         {
             InitializeComponents(nsf);
-            Nes.SetupOutput(null, null, new ApuPlaybackDescription(44100));
+            Nes.Apu.SetupPlayback(new ApuPlaybackDescription(44100));
 
             zero_memory(0, 0x07ff);
             zero_memory(0x6000, 0x7fff);
@@ -183,7 +183,7 @@ namespace NSFAudio
         static void InitializeComponents(NSF nsf)
         {
             BoardsManager.LoadAvailableBoards();
-            Nes.Board = BoardsManager.GetBoard(new MyNes.Core.ROM.INESHeader() { Mapper = (byte)nsf.ext_sound_type }, new byte[0x8000], new byte [0x8000], new byte[0x8000]);
+            Nes.Board = BoardsManager.GetBoard((byte)nsf.ext_sound_type, new byte[0x8000], new byte [0x8000], new byte[0x8000]);
             Nes.CpuMemory = new CpuMemory();
             Nes.CpuMemory.Initialize();
 

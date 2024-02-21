@@ -89,20 +89,5 @@ namespace MyNes.Core.Boards.Discreet
                 }
             }
         }
-
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(SRAM_PRG_Page);
-            stream.Write(irqEnable); 
-            stream.Write(irqCounter);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            SRAM_PRG_Page = stream.ReadInt32();
-            irqEnable = stream.ReadBoolean();
-            irqCounter = stream.ReadInt32();
-        }
     }
 }

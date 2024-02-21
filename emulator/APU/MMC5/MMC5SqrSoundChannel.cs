@@ -91,19 +91,5 @@ namespace MyNes.Core.APU.MMC5
             output = 0;
             base.HardReset();
         }
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(dutyForm);
-            stream.Write(dutyStep);
-            stream.Write(output);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            dutyForm = stream.ReadInt32();
-            dutyStep = stream.ReadInt32();
-            output = stream.ReadByte();
-        }
     }
 }

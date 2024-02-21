@@ -83,17 +83,5 @@ namespace MyNes.Core.APU
             ShiftRegister = 1;
             base.HardReset();
         }
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(ModeFlag);
-            stream.Write(ShiftRegister);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            ModeFlag = stream.ReadBoolean();
-            ShiftRegister = stream.ReadInt32();
-        }
     }
 }

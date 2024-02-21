@@ -70,19 +70,5 @@ namespace MyNes.Core.APU.VRC6
             sndPulse2.Update(cycles);
             sndSawtooth.Update(cycles);
         }
-
-        public void SaveState(Types.StateStream stream)
-        {
-            sndPulse1.SaveState(stream);
-            sndPulse2.SaveState(stream);
-            sndSawtooth.SaveState(stream);
-        }
-
-        public void LoadState(Types.StateStream stream)
-        {
-            sndPulse1.LoadState(stream);
-            sndPulse2.LoadState(stream);
-            sndSawtooth.LoadState(stream);
-        }
     }
 }

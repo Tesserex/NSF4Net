@@ -60,26 +60,5 @@ namespace MyNes.Core.Boards.Discreet
                 case 0x7003: irqReload = 7; irqCounter = 0; IrqEnable = true; break;
             }
         }
-
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(irqReload);
-            stream.Write(irqCounter);
-            stream.Write(IrqEnable);
-            stream.Write(oldA12);
-            stream.Write(newA12);
-            stream.Write(timer);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            irqReload = stream.ReadByte();
-            irqCounter = stream.ReadByte();
-            IrqEnable = stream.ReadBoolean();
-            oldA12 = stream.ReadInt32();
-            newA12 = stream.ReadInt32();
-            timer = stream.ReadInt32();
-        }
     }
 }

@@ -192,37 +192,5 @@ namespace MyNes.Core.APU
             EnvelopeRefresh = false;
             EnvelopeTimer = 0;
         }
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(DurationHalt, DurationHaltRequset, DurationReloadEnabled, DurationReloadRequst
-                , EnvelopeLooping, EnvelopeEnabled, EnvelopeRefresh);
-            stream.Write(frequency);
-            stream.Write(DurationCounter);
-            stream.Write(DurationReload);
-            stream.Write(EnvelopeVolume);
-            stream.Write(EnvelopeCount);
-            stream.Write(EnvelopeDelay);
-            stream.Write(EnvelopeTimer);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            bool[] flags = stream.ReadBooleans();
-            DurationHalt = flags[0];
-            DurationHaltRequset = flags[1];
-            DurationReloadEnabled = flags[2];
-            DurationReloadRequst = flags[3];
-            EnvelopeLooping = flags[4];
-            EnvelopeEnabled = flags[5];
-            EnvelopeRefresh = flags[6];
-            frequency = stream.ReadInt32();
-            DurationCounter = stream.ReadByte();
-            DurationReload = stream.ReadByte();
-            EnvelopeVolume = stream.ReadByte();
-            EnvelopeCount = stream.ReadByte();
-            EnvelopeDelay = stream.ReadByte();
-            EnvelopeTimer = stream.ReadByte();
-        }
     }
 }

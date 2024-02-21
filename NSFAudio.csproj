@@ -20,8 +20,4 @@
     <PackageReference Include="CSCore" Version="1.2.1.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="emulator\bin\x86\x86\" />
-  </ItemGroup>
-
 </Project>

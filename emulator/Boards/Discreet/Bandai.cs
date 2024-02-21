@@ -84,21 +84,6 @@ namespace MyNes.Core.Boards.Discreet
                 }
             }
         }
-
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(irqEnable);
-            stream.Write(irqCounter);
-            eprom.SaveState(stream);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            irqEnable = stream.ReadBoolean();
-            irqCounter = stream.ReadInt32();
-            eprom.LoadState(stream);
-        }
     }
     class Eprom
     {
@@ -421,33 +406,6 @@ namespace MyNes.Core.Boards.Discreet
                     output = 0x10;
                     break;
             }
-        }
-
-        public void SaveState(Types.StateStream stream)
-        {
-            stream.Write(data);
-            stream.Write((int)mode);
-            stream.Write((int)nextmode);
-            stream.Write(psda);
-            stream.Write(pscl);
-            stream.Write(output);
-            stream.Write(cbit);
-            stream.Write(caddress);
-            stream.Write(cdata);
-            stream.Write(isRead);
-        }
-        public void LoadState(Types.StateStream stream)
-        {
-            stream.Read(data);
-            mode = (EpromMode)stream.ReadInt32();
-            nextmode = (EpromMode)stream.ReadInt32();
-            psda = stream.ReadBoolean();
-            pscl = stream.ReadBoolean();
-            output = stream.ReadInt32();
-            cbit = stream.ReadInt32();
-            caddress = stream.ReadInt32();
-            cdata = stream.ReadInt32();
-            isRead = stream.ReadBoolean();
         }
     }
 }

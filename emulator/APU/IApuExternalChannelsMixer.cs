@@ -27,7 +27,5 @@ namespace MyNes.Core.APU
         void ClockEnvelope();
         void ClockSingle(bool isClockingDuration);
         void Update(int cycles);
-        void SaveState(Types.StateStream stream);
-        void LoadState(Types.StateStream stream);
     }
 }

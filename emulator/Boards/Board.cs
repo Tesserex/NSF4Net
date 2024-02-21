@@ -19,7 +19,6 @@
 using System;
 using System.Reflection;
 using MyNes.Core.Types;
-using MyNes.Core.GameGenie;
 namespace MyNes.Core.Boards
 {
     public abstract class Board
@@ -36,7 +35,6 @@ namespace MyNes.Core.Boards
         private string name;
         private int mapperNumber;
         private bool isGameGenieActive;
-        private GameGenieCode[] gameGenieCodes;
 
         public Board()
         {
@@ -78,29 +76,6 @@ namespace MyNes.Core.Boards
         }
         protected virtual byte PeekPrg(int address)
         {
-            if (isGameGenieActive)
-            {
-                foreach (GameGenieCode code in gameGenieCodes)
-                {
-                    if (code.Enabled)
-                    {
-                        if (code.Address == address)
-                        {
-                            if (code.IsCompare)
-                            {
-                                if (code.Compare == prg[DecodePrgAddress(address)])
-                                    return code.Value;
-                            }
-                            else
-                            {
-                                return code.Value;
-                            }
-
-                            break;
-                        }
-                    }
-                }
-            }
             return prg[DecodePrgAddress(address) & prgMask];
         }
         protected virtual void PokeChr(int address, byte data)
@@ -157,21 +132,6 @@ namespace MyNes.Core.Boards
             Switch32KPRG(0);
         }
         public virtual void SoftReset() { }
-
-        public virtual void SaveState(StateStream stream)
-        {
-            if (Nes.RomInfo.CHRcount == 0)
-                stream.Write(chr);
-            stream.Write(chrPage);
-            stream.Write(prgPage);
-        }
-        public virtual void LoadState(StateStream stream)
-        {
-            if (Nes.RomInfo.CHRcount == 0)
-                stream.Read(chr);
-            stream.Read(chrPage);
-            stream.Read(prgPage);
-        }
 
         #region SRAM
         /// <summary>
@@ -300,16 +260,6 @@ namespace MyNes.Core.Boards
         #endregion
 
         #region Properties
-        /// <summary>
-        /// Get or set if the game genie is activated. GameGenieCodes MUST be set first otherwise null exception will be thrown.
-        /// </summary>
-        public bool IsGameGenieActive
-        { get { return isGameGenieActive; } set { isGameGenieActive = value; } }
-        /// <summary>
-        /// Get or set the game genie codes list
-        /// </summary>
-        public GameGenieCode[] GameGenieCodes
-        { get { return gameGenieCodes; } set { gameGenieCodes = value; } }
         /// <summary>
         /// Get the board name
         /// </summary>

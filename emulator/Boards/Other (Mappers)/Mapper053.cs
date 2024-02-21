@@ -60,20 +60,5 @@ namespace MyNes.Core.Boards.Discreet
             Switch16KPRG((regs[0] & 0x10) == 0x10 ? (r | (0xFF & 0x7)) + (epromFirst ? 0x2 : 0x0) : epromFirst ? 0x01 : 0x81,
                 0xC000);
         }
-
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(regs); 
-            stream.Write(sramBank);
-            stream.Write(epromFirst);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            stream.Read(regs); 
-            sramBank = stream.ReadInt32();
-            epromFirst = stream.ReadBoolean();
-        }
     }
 }

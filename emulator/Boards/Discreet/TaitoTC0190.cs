@@ -36,25 +36,6 @@ namespace MyNes.Core.Boards.Discreet
         private int newA12;
         private int timer;
 
-        public override void Initialize()
-        {
-            base.Initialize(); 
-            MODE = false;
-            //since some game function like 48 but assigned as 33, we need to add some cases here
-            if (Path.GetFileNameWithoutExtension(Nes.RomInfo.Path).Contains("Don Doko Don") &&
-                !Path.GetFileNameWithoutExtension(Nes.RomInfo.Path).Contains("Don Doko Don 2"))
-            {
-                MODE = true;
-            } 
-            if (Path.GetFileNameWithoutExtension(Nes.RomInfo.Path).Contains("Insector X"))
-            {
-                MODE = true;
-            }
-            if (Path.GetFileNameWithoutExtension(Nes.RomInfo.Path).Contains("Takeshi no Sengoku Fuuunji"))
-            {
-                MODE = true;
-            }
-        }
         public override void HardReset()
         {
             // Switch 32KB prg bank at 0x8000
@@ -103,28 +84,6 @@ namespace MyNes.Core.Boards.Discreet
                     case 0xC003: IrqEnable = false; Nes.Cpu.Interrupt(CPU.Cpu.IsrType.Brd, false); break;
                 }
             }
-        }
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(irqReload);
-            stream.Write(irqCounter);
-            stream.Write(IrqEnable);
-            stream.Write(clear);
-            stream.Write(oldA12);
-            stream.Write(newA12);
-            stream.Write(timer);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            irqReload = stream.ReadByte();
-            irqCounter = stream.ReadByte();
-            IrqEnable = stream.ReadBoolean();
-            clear = stream.ReadBoolean();
-            oldA12 = stream.ReadInt32();
-            newA12 = stream.ReadInt32();
-            timer = stream.ReadInt32();
         }
     }
 }

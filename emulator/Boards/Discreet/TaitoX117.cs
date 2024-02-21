@@ -52,15 +52,5 @@ namespace MyNes.Core.Boards.Discreet
                 case 0x7EFC: Switch08KPRG(data >> 2, 0xC000); break;
             }
         }
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(chrMode);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            chrMode = stream.ReadBoolean();
-        }
     }
 }

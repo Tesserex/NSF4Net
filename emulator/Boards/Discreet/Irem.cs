@@ -47,15 +47,5 @@ namespace MyNes.Core.Boards.Discreet
             else
                 return chrRam[address - 0x800];
         }
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(chrRam);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream); 
-            stream.Read(chrRam);
-        }
     }
 }

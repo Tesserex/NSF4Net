@@ -48,15 +48,5 @@ namespace MyNes.Core.Boards.Nintendo
         {
             return exram[address - 0x5000];
         }
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(exram);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            stream.Read(exram);
-        }
     }
 }

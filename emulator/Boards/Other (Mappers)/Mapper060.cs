@@ -55,18 +55,5 @@ namespace MyNes.Core.Boards.Discreet
             else
                 return menu;
         }
-
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(latch); 
-            stream.Write(menu);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            latch = stream.ReadInt32();
-            menu = stream.ReadByte();
-        }
     }
 }

@@ -29,15 +29,7 @@ namespace MyNes.Core.Boards.FFE
             : base(chr, prg, trainer, isVram)
         { }
         int mask = 0x7;
-        public override void Initialize()
-        {
-            switch (Nes.RomInfo.PRGcount * 0x4000)
-            {
-                case 0x20000: mask = 0x7; break; // UNROM: 128 kB PRG, 8kB CHR-RAM
-                case 0x40000: mask = 0xF; break; // UOROM: 256 kB PRG, 8kB CHR-RAM
-            }
-            base.Initialize();
-        }
+
         public override void HardReset()
         {
             base.HardReset();

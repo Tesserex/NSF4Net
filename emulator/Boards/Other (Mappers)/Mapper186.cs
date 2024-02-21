@@ -86,18 +86,5 @@ namespace MyNes.Core.Boards.Other__Mappers_
         {
             ram[address - 0x4400] = data;
         }
-
-        public override void SaveState(StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(ram);
-            stream.Write(sramPRG);
-        }
-        public override void LoadState(StateStream stream)
-        {
-            base.LoadState(stream);
-            stream.Read(ram);
-            sramPRG = stream.ReadInt32();
-        }
     }
 }

@@ -70,20 +70,5 @@ namespace MyNes.Core.Boards.Discreet
                     break;
             }
         }
-
-        public override void SaveState(Types.StateStream stream)
-        {
-            base.SaveState(stream);
-            stream.Write(chrReg);
-            stream.Write(chrA);
-            stream.Write(chrB);
-        }
-        public override void LoadState(Types.StateStream stream)
-        {
-            base.LoadState(stream);
-            chrReg = stream.ReadInt32();
-            chrA = stream.ReadInt32();
-            chrB = stream.ReadInt32();
-        }
     }
 }
