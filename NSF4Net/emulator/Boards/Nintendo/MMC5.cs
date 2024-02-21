@@ -18,7 +18,7 @@
  */
 /*Written by Ala Ibrahim Hadid*/
 using MyNes.Core.APU.MMC5;
-using NSFAudio;
+using NSF4Net;
 namespace MyNes.Core.Boards.Nintendo
 {
     [BoardName("MMC5", 5)]

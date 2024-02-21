@@ -1,7 +1,6 @@
-﻿// See https://aka.ms/new-console-template for more information
-using CSCore.CoreAudioAPI;
+﻿using CSCore.CoreAudioAPI;
 using CSCore.SoundOut;
-using NSFAudio;
+using Example;
 
 var _devices = new List<MMDevice>();
 

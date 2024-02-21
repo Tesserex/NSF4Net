@@ -18,7 +18,7 @@
  */
 /*Written by Ala Ibrahim Hadid*/
 using MyNes.Core.APU.Namco163;
-using NSFAudio;
+using NSF4Net;
 namespace MyNes.Core.Boards.Discreet
 {
     [BoardName("Namcot 106", 19)]

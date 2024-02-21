@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -9,15 +9,14 @@
 
   <ItemGroup>
     <Compile Remove="emulator\obj\**" />
+    <Compile Remove="Example\**" />
     <Compile Remove="nsf\**" />
     <EmbeddedResource Remove="emulator\obj\**" />
+    <EmbeddedResource Remove="Example\**" />
     <EmbeddedResource Remove="nsf\**" />
     <None Remove="emulator\obj\**" />
+    <None Remove="Example\**" />
     <None Remove="nsf\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="CSCore" Version="1.2.1.2" />
   </ItemGroup>
 
 </Project>

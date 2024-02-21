@@ -18,7 +18,7 @@
  */
 /*Written by Ala Ibrahim Hadid*/
 using MyNes.Core.APU.VRC6;
-using NSFAudio;
+using NSF4Net;
 namespace MyNes.Core.Boards.Konami
 {
     [BoardName("VRC6", 0)]

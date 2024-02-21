@@ -1,8 +1,9 @@
 ﻿using CSCore;
+using NSF4Net;
 
-namespace NSFAudio
+namespace Example
 {
-    internal class NsfWaveSource : IWaveSource
+    public class NsfWaveSource : IWaveSource
     {
         private const int CHANNELS = 2;
         private NsfPlayer player;

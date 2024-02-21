@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /*Written by Adam Becker*/
-using NSFAudio;
+using NSF4Net;
 
 namespace MyNes.Core.Boards.Nintendo
 {

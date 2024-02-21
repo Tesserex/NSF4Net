@@ -18,7 +18,7 @@
  */
 /*Written by Ala Ibrahim Hadid*/
 using MyNes.Core.APU.Sunsoft5B;
-using NSFAudio;
+using NSF4Net;
 namespace MyNes.Core.Boards.Sunsoft
 {
     [BoardName("Sunsoft B5 / FME-7", 69)]

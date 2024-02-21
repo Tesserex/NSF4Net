@@ -3,7 +3,7 @@ using MyNes.Core.Boards;
 using MyNes.Core.CPU;
 using MyNes.Core;
 
-namespace NSFAudio
+namespace NSF4Net
 {
     public class NsfPlayer
     {
