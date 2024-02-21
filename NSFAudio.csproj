@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="emulator\obj\**" />
+    <Compile Remove="nsf\**" />
+    <EmbeddedResource Remove="emulator\obj\**" />
+    <EmbeddedResource Remove="nsf\**" />
+    <None Remove="emulator\obj\**" />
+    <None Remove="nsf\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CSCore" Version="1.2.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="emulator\bin\x86\x86\" />
+  </ItemGroup>
+
+</Project>

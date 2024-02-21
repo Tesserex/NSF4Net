@@ -1,0 +1,26 @@
+﻿
+
+Mapper 43 not work
+Mapper 52 main menu is ugly for unknown reason
+Mapper 53 show main menu but never start the game or show any game
+Mapper 56 doesn't work
+Mapper 60 4 in 1 cart doesn't work.
+Mapper 64 Klax shakes due to unknown irq issue, docs mansion the irq A13 delay
+Mapper 70 some games show glitches, BUS CONFLICTS ?
+Mapper 75 some games doesn't work
+Mapper 83 not emulated right since there's no clear doc
+Mapper 90 the dipswitch reg at $5000 is unknown and undocumented, 4 in 1 rom never work (depends on the dipswitch reg ?) 
+Mapper 96 can't start the games to test (These games seem to require a special controller ?)
+Mapper 101 games are glichy, no doc !
+Mapper 105 not sure if it works, not tested, you need to wait forever for the game to start !
+Mapper 119 Pin Bot shows some glitches in main menu
+Mapper 151 doesn't work for unknown reason :(
+Mapper 154 not sure if it work, don't have a rom to test
+Mapper 165 not added lol
+Mapper 182 Lion King hangs with black screen after start, other games work perfect.
+Mapper 186 wtf ?
+Mapper 191 not work, it should since it's modified MMC3 and only changes chr setup :(
+Mapper 193 no chr !!?? nothing drawn but the charecter
+Mapper 229 ????
+MApper 231 doen't work although it's as same as written on docs
+Mapper 234 not work well
