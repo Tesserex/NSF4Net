@@ -40,48 +40,38 @@ namespace NSFAudio
 
         public byte[] data;
         public uint length;
-        public int playback_rate;
         public byte current_song;
         public bool bankswitched;
 
-        public bool IsPal { get { return (this.pal_ntsc_bits & 1) > 0; } }
+        public bool IsPal { get; private set; }
 
-        public int CyclesPerFrame
+        public double PlaybackRateHz { get; private set; }
+
+        public int CpuSpeed { get; private set; }
+
+        public double CyclesPerFrame { get; private set; }
+
+        private void setup()
         {
-            get
-            {
-                if (this.IsPal)
-                    return 26667;
-                else
-                    return 29830;
-            }
-        }
-
-        public void setup()
-        {
-            int div_speed;
-
             this.current_song = this.start_song;
 
+            this.IsPal = (this.pal_ntsc_bits & 1) == 1;
+
+            this.PlaybackRateHz = 60;
             if (this.IsPal)
-                div_speed = this.pal_speed;
-            else
-                div_speed = this.ntsc_speed;
-
-            if (div_speed != 0)
-                this.playback_rate = 1000000 / div_speed;
-            else
-                this.playback_rate = 60; /* Assume 60 Hz */
-
-            this.bankswitched = false;
-            foreach (byte b in this.bankswitch_info)
             {
-                if (b != 0)
-                {
-                    this.bankswitched = true;
-                    break;
-                }
+                this.CpuSpeed = 1662607;
+                this.PlaybackRateHz = 1000000d / this.pal_speed;
             }
+            else
+            {
+                this.CpuSpeed = 1789772;
+                this.PlaybackRateHz = 1000000d / this.ntsc_speed;
+            }
+
+            this.CyclesPerFrame = this.CpuSpeed / this.PlaybackRateHz;
+
+            this.bankswitched = this.bankswitch_info.Any(b => b > 0);
         }
 
         /* Load a ROM image into memory */

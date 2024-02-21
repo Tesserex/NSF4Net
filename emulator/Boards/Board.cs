@@ -65,12 +65,10 @@ namespace MyNes.Core.Boards
                 {
                     this.name = ((BoardName)attr).Name;
                     this.mapperNumber = ((BoardName)attr).InesMapperNumber;
-                    break;
                 }
                 else if (attr.GetType() == typeof(BoardSoundChip))
                 {
                     this.SoundChip = ((BoardSoundChip)attr).SoundChip;
-                    break;
                 }
             }
         }

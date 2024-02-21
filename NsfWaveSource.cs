@@ -10,7 +10,7 @@ namespace NSFAudio
     {
         private const int CHANNELS = 2;
         private const int FRAME_FIXED = 14;
-        private const double nes_basecycles = 1789772;
+        private double clock_per_sample;
         private WaveFormat _waveFormat;
         private double volume = 1.0;
         public bool IsRendering = false;
@@ -21,7 +21,6 @@ namespace NSFAudio
         public NsfWaveSource(string path)
         {
             _waveFormat = new WaveFormat(48000, 16, CHANNELS);
-            //Task.Run(() => play_nsf_file(path, 1));
             play_nsf_file(path, 1);
         }
 
@@ -44,8 +43,6 @@ namespace NSFAudio
 
         public int Read(byte[] buffer, int offset, int count)
         {
-            double clock_per_sample = nes_basecycles / _waveFormat.SampleRate;
-
             for (var bufPos = 0; bufPos < count;)
             {
                 cpuClockRemaining += clock_per_sample;
@@ -229,7 +226,8 @@ namespace NSFAudio
             else
                 nsf.current_song = track;
 
-            fclocks_per_frame = (long)((1 << FRAME_FIXED) * nes_basecycles / nsf.playback_rate);
+            fclocks_per_frame = (long)((1 << FRAME_FIXED) * nsf.CyclesPerFrame);
+            clock_per_sample = nsf.CpuSpeed / _waveFormat.SampleRate;
 
             /* reset state of the NES */
             nsf_setupsong(nsf);
