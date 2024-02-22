@@ -44,17 +44,8 @@ namespace MyNes.Core.Boards.Nintendo
         private int chrSwitchHigh = 0;
         private byte prgSelectMode = 3;
         private int IRQStatus = 0;
-        private int irq_scanline = 0;
-        private int irq_line = 0;
-        private int irq_clear = 0;
-        private int irq_enable = 0;
         private byte Multiplier_A = 0;
         private byte Multiplier_B = 0;
-
-        private int split_scroll = 0;
-        private int split_control = 0;
-        private int split_page = 0;
-        private int lastAccessVRAM = 0;
 
         public override void SetSram(byte[] buffer)
         {
@@ -99,17 +90,8 @@ namespace MyNes.Core.Boards.Nintendo
             chrSwitchHigh = 0;
             prgSelectMode = 3;
             IRQStatus = 0;
-            irq_scanline = 0;
-            irq_line = 0;
-            irq_clear = 0;
-            irq_enable = 0;
             Multiplier_A = 0;
             Multiplier_B = 0;
-
-            split_scroll = 0;
-            split_control = 0;
-            split_page = 0;
-            lastAccessVRAM = 0;
         }
         protected override void PokePrg(int address, byte data)
         {
@@ -305,15 +287,6 @@ C=%11:    | $5128 | $5129 | $512A | $512B |
                     }
                     break;
                 #endregion
-
-                //Split Screen
-                case 0x5200: split_control = data; break;
-                case 0x5201: split_scroll = data; break;
-                case 0x5202: split_page = data; break;
-
-                //IRQ Operation
-                case 0x5203: irq_line = data; Nes.Cpu.Interrupt(CPU.Cpu.IsrType.Brd, false); break;
-                case 0x5204: irq_enable = data; Nes.Cpu.Interrupt(CPU.Cpu.IsrType.Brd, false); break;
 
                 //8 * 8 -> 16 Multiplier
                 case 0x5205: Multiplier_A = data; break;

@@ -14,8 +14,14 @@ namespace NSF4Net
         private double cpuClockRemaining = 0;
         private int oversampleMult = 10;
         private int frameClocks = 0;
+
+        // cpu waiting for frame to end
         private bool cpuWaiting = false;
+
+        // user controlled play state
         private bool playing = false;
+
+        // forbid cpu from running while we're setting up the song
         private bool hold = false;
 
         public NSF? Nsf { get; private set; }
@@ -34,7 +40,7 @@ namespace NSF4Net
             fclocks_per_frame = (long)((1 << FRAME_FIXED) * Nsf.CyclesPerFrame);
             clock_per_sample = Nsf.CpuSpeed / SampleRate;
             nsfInit();
-            nsf_setupsong();
+            nsfSetupSong();
         }
 
         public void SelectSong(int song)
@@ -43,7 +49,7 @@ namespace NSF4Net
                 return;
 
             Nsf.current_song = (byte)song;
-            nsf_setupsong();
+            nsfSetupSong();
         }
 
         public short TickSample()
@@ -88,7 +94,7 @@ namespace NSF4Net
             return Nes.Apu.PullSample();
         }
 
-        private void nsf_bankswitch(uint address, byte index)
+        private void NsfBankswitch(uint address, byte index)
         {
             if (Nsf is null) return;
 
@@ -141,8 +147,10 @@ namespace NSF4Net
             Nes.Apu.SetupPlayback(new ApuPlaybackDescription(SampleRate));
         }
 
-        private void nsf_setupsong()
+        private void nsfSetupSong()
         {
+            if (Nsf is null) return;
+
             hold = true;
             zero_memory(0, 0x07ff);
             zero_memory(0x6000, 0x7fff);
@@ -153,14 +161,14 @@ namespace NSF4Net
 
             if (Nsf.bankswitched)
             {
-                nsf_bankswitch(0x5FF8, 0);
-                nsf_bankswitch(0x5FF9, 1);
-                nsf_bankswitch(0x5FFA, 2);
-                nsf_bankswitch(0x5FFB, 3);
-                nsf_bankswitch(0x5FFC, 4);
-                nsf_bankswitch(0x5FFD, 5);
-                nsf_bankswitch(0x5FFE, 6);
-                nsf_bankswitch(0x5FFF, 7);
+                NsfBankswitch(0x5FF8, 0);
+                NsfBankswitch(0x5FF9, 1);
+                NsfBankswitch(0x5FFA, 2);
+                NsfBankswitch(0x5FFB, 3);
+                NsfBankswitch(0x5FFC, 4);
+                NsfBankswitch(0x5FFD, 5);
+                NsfBankswitch(0x5FFE, 6);
+                NsfBankswitch(0x5FFF, 7);
             }
             else
             {
@@ -179,6 +187,8 @@ namespace NSF4Net
 
         private void InitializeComponents()
         {
+            if (Nsf is null) return;
+
             BoardsManager.LoadAvailableBoards();
             Nes.Board = BoardsManager.GetBoard((byte)Nsf.ext_sound_type);
             Nes.CpuMemory = new CpuMemory();

@@ -1,12 +1,25 @@
-﻿using CSCore.CoreAudioAPI;
-using CSCore.SoundOut;
+﻿using CSCore.SoundOut;
 using Example;
 using NSF4Net;
 
 var player = new NsfPlayer(48000);
 var waveSource = new NsfWaveSource(player);
+var _soundOut = new WasapiOut();
+_soundOut.Initialize(waveSource);
+_soundOut.Play();
 
-var path = @"C:\junk\Code\NSFAudio\mm5.nsf";
+// get path from args or input
+string? path = null;
+if (args.Length > 0)
+{
+    path = args[0];
+}
+else
+{
+    Console.WriteLine("Enter path to NSF file:");
+    path = Console.ReadLine();
+}
+
 if (path != null)
 {
     player.LoadNsf(path);
@@ -14,10 +27,6 @@ if (path != null)
 
     UpdateDisplay(player.Nsf);
 }
-
-var _soundOut = new WasapiOut();
-_soundOut.Initialize(waveSource);
-_soundOut.Play();
 
 // respond to arrow keys
 while (true)

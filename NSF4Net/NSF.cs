@@ -55,47 +55,19 @@ namespace NSF4Net
 
         public double CyclesPerFrame { get; private set; }
 
-        private void setup()
-        {
-            this.Name = Encoding.ASCII.GetString(this.song_name).TrimEnd('\0');
-            this.Author = Encoding.ASCII.GetString(this.author_name).TrimEnd('\0');
-            this.Copyright = Encoding.ASCII.GetString(this.copyright).TrimEnd('\0');
-
-            this.current_song = this.start_song;
-
-            this.IsPal = (this.pal_ntsc_bits & 1) == 1;
-
-            this.PlaybackRateHz = 60;
-            if (this.IsPal)
-            {
-                this.CpuSpeed = 1662607;
-                this.PlaybackRateHz = 1000000d / this.pal_speed;
-            }
-            else
-            {
-                this.CpuSpeed = 1789772;
-                this.PlaybackRateHz = 1000000d / this.ntsc_speed;
-            }
-
-            this.CyclesPerFrame = this.CpuSpeed / this.PlaybackRateHz;
-
-            this.bankswitched = this.bankswitch_info.Any(b => b > 0);
-        }
-
         /* Load a ROM image into memory */
         public NSF(string filename)
         {
             FileStream fp;
-            fp = File.OpenRead(filename);
 
             /* Didn't find the file?  Maybe the .NSF extension was omitted */
             if (!File.Exists(filename))
             {
                 if (!filename.Contains('.'))
                     filename += ".nsf";
-
-                fp = File.OpenRead(filename);
             }
+
+            fp = File.OpenRead(filename);
 
             /* Read in the header */
             fp.Read(this.id, 0, 5);
@@ -124,7 +96,29 @@ namespace NSF4Net
             fp.Close();
 
             /* Set up some variables */
-            setup();
+            this.Name = Encoding.ASCII.GetString(this.song_name).TrimEnd('\0');
+            this.Author = Encoding.ASCII.GetString(this.author_name).TrimEnd('\0');
+            this.Copyright = Encoding.ASCII.GetString(this.copyright).TrimEnd('\0');
+
+            this.current_song = this.start_song;
+
+            this.IsPal = (this.pal_ntsc_bits & 1) == 1;
+
+            this.PlaybackRateHz = 60;
+            if (this.IsPal)
+            {
+                this.CpuSpeed = 1662607;
+                this.PlaybackRateHz = 1000000d / this.pal_speed;
+            }
+            else
+            {
+                this.CpuSpeed = 1789772;
+                this.PlaybackRateHz = 1000000d / this.ntsc_speed;
+            }
+
+            this.CyclesPerFrame = this.CpuSpeed / this.PlaybackRateHz;
+
+            this.bankswitched = this.bankswitch_info.Any(b => b > 0);
         }
 
         private ushort ReadShort(FileStream fs)

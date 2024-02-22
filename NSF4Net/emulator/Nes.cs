@@ -50,11 +50,6 @@ namespace MyNes.Core
         public static event System.EventHandler FullscreenSwitch;
         //others
         public static bool SaveSramOnShutdown = true;
-        //state
-        private static bool saveStateRequest;
-        private static bool loadStateRequest;
-        private static string requestStatePath;
-        public static int StateSlot = 0;
 
         public static TimingInfo.System emuSystem = TimingInfo.NTSC;
 

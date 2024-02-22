@@ -32,7 +32,6 @@ namespace MyNes.Core.Boards
         protected int chrMask;
         private string name;
         private int mapperNumber;
-        private bool isGameGenieActive;
 
         public Board()
         {
