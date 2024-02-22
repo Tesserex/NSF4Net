@@ -8,14 +8,14 @@ namespace Example
         private const int CHANNELS = 2;
         private NsfPlayer player;
         private WaveFormat _waveFormat;
-        private double volume = 1.0;
 
-        public NsfWaveSource(string path)
+        private double volume = 1d;
+        public double Volume { get { return volume; } set { volume = Math.Clamp(value, 0, 1); } }
+
+        public NsfWaveSource(NsfPlayer player)
         {
-            _waveFormat = new WaveFormat(48000, 16, CHANNELS);
-            player = new NsfPlayer(48000);
-            player.LoadNsf(path);
-            player.SelectSong(2);
+            this.player = player;
+            _waveFormat = new WaveFormat(player.SampleRate, 16, CHANNELS);
         }
 
         public bool CanSeek => false;
@@ -35,7 +35,7 @@ namespace Example
             for (var bufPos = 0; bufPos < count;)
             {
                 double sample = player.TickSample();
-                var output = (ushort)(256 * volume * sample);
+                var output = (ushort)(256 * Volume * sample);
                 for (int i = 0; i < CHANNELS; i++)
                 {
                     buffer[bufPos++] = (byte)(output & 0xFF);

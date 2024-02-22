@@ -10,37 +10,36 @@ namespace NSF4Net
         private const int FRAME_FIXED = 14;
         private double clock_per_sample;
 
-        private NSF? nsf;
         private long fclocks_per_frame;
-        double cpuClockRemaining = 0;
-        int oversampleMult = 10;
-        int frameClocks = 0;
-        bool breaked = false;
-        private readonly int sampleRate;
+        private double cpuClockRemaining = 0;
+        private int oversampleMult = 10;
+        private int frameClocks = 0;
+        private bool breaked = false;
+
+        public NSF? Nsf { get; private set; }
+        public int SampleRate { get; private init; }
 
         public NsfPlayer(int sampleRate)
         {
-            this.sampleRate = sampleRate;
+            this.SampleRate = sampleRate;
             Nes.TurnOn();
         }
 
         public void LoadNsf(string filename)
         {
-            nsf = new NSF(filename);
-            fclocks_per_frame = (long)((1 << FRAME_FIXED) * nsf.CyclesPerFrame);
-            clock_per_sample = nsf.CpuSpeed / sampleRate;
+            Nsf = new NSF(filename);
+            fclocks_per_frame = (long)((1 << FRAME_FIXED) * Nsf.CyclesPerFrame);
+            clock_per_sample = Nsf.CpuSpeed / SampleRate;
             nsf_setupsong();
         }
 
         public void SelectSong(int song)
         {
-            if (nsf is null || song < 1 || song > nsf.num_songs)
+            if (Nsf is null || song < 1 || song > Nsf.num_songs)
                 return;
 
-            nsf.current_song = (byte)song;
-            runRoutine(nsf.init_addr);
-            while (Nes.Cpu.pc.Value != 0x4103) Nes.Cpu.Update();
-            runRoutine(nsf.play_addr);
+            Nsf.current_song = (byte)song;
+            nsf_setupsong();
         }
 
         public short TickSample()
@@ -68,7 +67,7 @@ namespace NSF4Net
                             if (frameClocks >= fclocks_per_frame)
                             {
                                 breaked = false;
-                                runRoutine(nsf.play_addr);
+                                runRoutine(Nsf.play_addr);
                                 frameClocks = 0;
                             }
                         }
@@ -85,20 +84,20 @@ namespace NSF4Net
 
         private void nsf_bankswitch(uint address, byte index)
         {
-            if (nsf is null) return;
+            if (Nsf is null) return;
 
             uint bank_src, bank_dest, bank_offset;
             uint bank_length;
-            byte value = nsf.bankswitch_info[index];
+            byte value = Nsf.bankswitch_info[index];
 
-            if (!nsf.bankswitched)
+            if (!Nsf.bankswitched)
                 return;
 
             /* destination in nes address space */
             bank_dest = 0x8000 + ((address & 7) << 12);
 
             /* offset of banks in nsf data */
-            bank_offset = (uint)(nsf.load_addr & 0x0FFF);
+            bank_offset = (uint)(Nsf.load_addr & 0x0FFF);
 
             if (0 == value) /* special case for bank 0 */
             {
@@ -110,15 +109,15 @@ namespace NSF4Net
             {
                 bank_src = (uint)((value << 12) - bank_offset);
 
-                if (nsf.length - bank_src < 0x1000)
-                    bank_length = nsf.length - bank_src;
+                if (Nsf.length - bank_src < 0x1000)
+                    bank_length = Nsf.length - bank_src;
                 else
                     bank_length = 0x1000;
             }
 
             for (uint i = 0; i < bank_length; i++)
             {
-                Nes.CpuMemory[(ushort)(bank_dest + i)] = nsf.data[bank_src + i];
+                Nes.CpuMemory[(ushort)(bank_dest + i)] = Nsf.data[bank_src + i];
             }
         }
 
@@ -140,9 +139,9 @@ namespace NSF4Net
             zero_memory(0x4000, 0x4013);
             Nes.CpuMemory[0x4015] = 0x0F;
             Nes.CpuMemory[0x4017] = 0x40;
-            Nes.Cpu.a = (byte)(nsf.current_song - 1);
+            Nes.Cpu.a = (byte)(Nsf.current_song - 1);
 
-            if (nsf.bankswitched)
+            if (Nsf.bankswitched)
             {
                 nsf_bankswitch(0x5FF8, 0);
                 nsf_bankswitch(0x5FF9, 1);
@@ -155,22 +154,22 @@ namespace NSF4Net
             }
             else
             {
-                for (ushort i = 0; i < nsf.length; i++)
+                for (ushort i = 0; i < Nsf.length; i++)
                 {
-                    Nes.CpuMemory[(ushort)(i + nsf.load_addr)] = nsf.data[i];
+                    Nes.CpuMemory[(ushort)(i + Nsf.load_addr)] = Nsf.data[i];
                 }
             }
 
-            Nes.Cpu.x = nsf.IsPal ? (byte)1 : (byte)0;
-            runRoutine(nsf.init_addr);
+            Nes.Cpu.x = Nsf.IsPal ? (byte)1 : (byte)0;
+            runRoutine(Nsf.init_addr);
             while (Nes.Cpu.pc.Value != 0x4103) Nes.Cpu.Update();
-            runRoutine(nsf.play_addr);
+            runRoutine(Nsf.play_addr);
         }
 
         private void InitializeComponents()
         {
             BoardsManager.LoadAvailableBoards();
-            Nes.Board = BoardsManager.GetBoard((byte)nsf.ext_sound_type);
+            Nes.Board = BoardsManager.GetBoard((byte)Nsf.ext_sound_type);
             Nes.CpuMemory = new CpuMemory();
             Nes.CpuMemory.Initialize();
 

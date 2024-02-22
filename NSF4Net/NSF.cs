@@ -43,6 +43,10 @@ namespace NSF4Net
         public byte current_song;
         public bool bankswitched;
 
+        public string Name { get; private set; }
+        public string Author { get; private set; }
+        public string Copyright { get; private set; }
+
         public bool IsPal { get; private set; }
 
         public double PlaybackRateHz { get; private set; }
@@ -53,6 +57,10 @@ namespace NSF4Net
 
         private void setup()
         {
+            this.Name = Encoding.ASCII.GetString(this.song_name).TrimEnd('\0');
+            this.Author = Encoding.ASCII.GetString(this.author_name).TrimEnd('\0');
+            this.Copyright = Encoding.ASCII.GetString(this.copyright).TrimEnd('\0');
+
             this.current_song = this.start_song;
 
             this.IsPal = (this.pal_ntsc_bits & 1) == 1;
