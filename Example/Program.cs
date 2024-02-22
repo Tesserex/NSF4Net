@@ -10,6 +10,7 @@ var path = @"C:\junk\Code\NSFAudio\mm5.nsf";
 if (path != null)
 {
     player.LoadNsf(path);
+    player.Playing = true;
 
     UpdateDisplay(player.Nsf);
 }

@@ -14,10 +14,13 @@ namespace NSF4Net
         private double cpuClockRemaining = 0;
         private int oversampleMult = 10;
         private int frameClocks = 0;
-        private bool breaked = false;
+        private bool cpuWaiting = false;
+        private bool playing = false;
+        private bool hold = false;
 
         public NSF? Nsf { get; private set; }
         public int SampleRate { get; private init; }
+        public bool Playing { get => playing && !hold; set { playing = value; } }
 
         public NsfPlayer(int sampleRate)
         {
@@ -30,6 +33,7 @@ namespace NSF4Net
             Nsf = new NSF(filename);
             fclocks_per_frame = (long)((1 << FRAME_FIXED) * Nsf.CyclesPerFrame);
             clock_per_sample = Nsf.CpuSpeed / SampleRate;
+            nsfInit();
             nsf_setupsong();
         }
 
@@ -44,6 +48,9 @@ namespace NSF4Net
 
         public short TickSample()
         {
+            if (Nsf is null || !Playing)
+                return 0;
+
             cpuClockRemaining += clock_per_sample;
             int cpuClocks = (int)cpuClockRemaining;
             int mcclocks = 0;
@@ -55,7 +62,7 @@ namespace NSF4Net
                     int sub_clocks = mcclocks / oversampleMult;
                     for (var j = 0; j < sub_clocks; j++)
                     {
-                        if (!breaked)
+                        if (!cpuWaiting)
                             Nes.Cpu.Update();
 
                         Nes.Apu.Update(TimingInfo.NTSC.Cpu);
@@ -63,10 +70,9 @@ namespace NSF4Net
                         frameClocks += 1 << FRAME_FIXED;
                         if (Nes.Cpu.pc.Value == 0x4103)
                         {
-                            breaked = true;
+                            cpuWaiting = true;
                             if (frameClocks >= fclocks_per_frame)
                             {
-                                breaked = false;
                                 runRoutine(Nsf.play_addr);
                                 frameClocks = 0;
                             }
@@ -129,11 +135,15 @@ namespace NSF4Net
             }
         }
 
-        private void nsf_setupsong()
+        private void nsfInit()
         {
             InitializeComponents();
-            Nes.Apu.SetupPlayback(new ApuPlaybackDescription(44100));
+            Nes.Apu.SetupPlayback(new ApuPlaybackDescription(SampleRate));
+        }
 
+        private void nsf_setupsong()
+        {
+            hold = true;
             zero_memory(0, 0x07ff);
             zero_memory(0x6000, 0x7fff);
             zero_memory(0x4000, 0x4013);
@@ -164,6 +174,7 @@ namespace NSF4Net
             runRoutine(Nsf.init_addr);
             while (Nes.Cpu.pc.Value != 0x4103) Nes.Cpu.Update();
             runRoutine(Nsf.play_addr);
+            hold = false;
         }
 
         private void InitializeComponents()
@@ -182,7 +193,7 @@ namespace NSF4Net
             Nes.Initialized = true;
         }
 
-        private static void runRoutine(ushort addr)
+        private void runRoutine(ushort addr)
         {
             Nes.CpuMemory[0x4100] = 0x20; /* jsr */
             Nes.CpuMemory[0x4101] = (byte)(addr & 0xFF);
@@ -190,6 +201,8 @@ namespace NSF4Net
             Nes.CpuMemory[0x4103] = 0xFF; /* kill switch for CPU emulation */
 
             Nes.Cpu.pc.Value = 0x4100;
+
+            cpuWaiting = false;
         }
     }
 }
